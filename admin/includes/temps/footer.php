@@ -1,9 +1,8 @@
         <div class="footer">
-            This Is Footer
         </div>
-        <script src="./layouts/js/bootstrap.min.js"></script>
-        <script src="./layouts/js/jquery-3.5.1.min.js"></script>
-        <script src="./layouts/js/all.min.js"></script>
-        <script src="./layouts/js/backend.js"></script>
+        <script src="<?php echo $js;?>jquery-3.5.1.min.js"></script>
+        <script src="<?php echo $js;?>bootstrap.min.js"></script>
+        <script src="<?php echo $js;?>all.min.js"></script>
+        <script src="<?php echo $js;?>mycode.js"></script>
     </body>
 </html>
