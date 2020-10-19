@@ -11,8 +11,10 @@ $( function () {
     });
     // animate edit user  form
     $('.edit-user-form').animate({
-        marginLeft: '0px'
-    }, 800);
+        marginLeft: '50px'
+    }, 800,function () {
+        $(".edit-form").css('margin-left',50)
+    });
 
     // toggle placeholder
   $("[placeholder]").focus( function () {
@@ -20,5 +22,7 @@ $( function () {
   }).blur( function () {
       $(this).attr('placeholder',$(this).attr('data-placeholder'));
   });
+
+
 
 });
