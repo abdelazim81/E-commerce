@@ -1,5 +1,4 @@
 <?php
-
 // function for dynamic title
 function getTitle() {
     global $pageTitle;
@@ -34,5 +33,9 @@ function successDisplay ($msg){
     echo "</div>";
     echo "</div>";
 }
+
+
+
+
 
 ?>

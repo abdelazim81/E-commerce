@@ -22,7 +22,8 @@ $( function () {
   }).blur( function () {
       $(this).attr('placeholder',$(this).attr('data-placeholder'));
   });
-
-
+$("body").on('click','.confirm', function () {
+        return confirm("Are You Sure That You Want To Delete This Row")
+});
 
 });

@@ -26,7 +26,7 @@ if (isset($_POST['login'])){
                 <input type="text" class="form-control" name="UserName" placeholder="Enter User Name!" required>
             </div>
             <div class="form-group">
-                <input autocomplete="off" type="password" name="Password"  class="form-control" placeholder="Enter Your Password Here!">
+                <input autocomplete="off" type="password" name="UserPassword"  class="form-control" placeholder="Enter Your Password Here!">
             </div>
             <button type="submit" name="login" class="btn btn-primary">Submit</button>
         </form>
