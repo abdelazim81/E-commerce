@@ -35,6 +35,18 @@ function successDisplay ($msg){
 }
 
 
+function getUsersCount($atrr,$table){
+    $connection = @mysqli_connect('localhost', 'root', '', 'shop');
+    if(!$connection){
+        echo 'you are not connected';
+        exit();
+    }
+    $query = "SELECT COUNT($atrr) FROM $table";
+    $result = mysqli_query($connection,$query);
+    $row = $result->fetch_row();
+    return $row[0];
+}
+
 
 
 

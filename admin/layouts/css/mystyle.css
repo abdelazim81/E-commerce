@@ -37,5 +37,43 @@ h1{
  .add-btn{
      margin-top: 31px;
      margin-left: 61px;
+}
+ /* start dashboard*/
+.home-stat .stat{
+    margin-top: 20px;
+    color: #FFF;
+}
+ .stat .st-members{
+    background-color: #f0932b;
+}
+.stat .st-pending{
+    background-color:#eb4d4b;
+}
+
+.home-stat .stat .st-items{
+    background-color:#be2edd;
+}
+
+.home-stat .stat .st-comments{
+    background-color:#686de0;
+}
+.home-stat .stat span{
+    display: block;
+    padding-top: 5px;
+    font-size: 60px;
+    font-weight: 300;
+}
+.home-stat .stat span a:hover{
+    text-decoration: none;
+}
+.latest{
+    margin-top: 10px;
+}
+.latest .panel-head{
+    background-color: #BEBEBE;
+}
+.latest .panel-body{
+    background-color: #f5f5f5;
 
 }
+/*End Dashboard*/

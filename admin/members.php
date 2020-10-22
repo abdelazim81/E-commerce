@@ -116,8 +116,8 @@ if (isset($_SESSION['UserName'])) {
                     if (count($rows)>0){
                         errorDisplay(array('This User Name Exist Try Another One'));
                     }else{
-                        $storeUserInfo = "INSERT INTO users(UserName,Password,Email,FullName,Date) 
-                                  VALUES('$UserName','$Password','$Email','$FullName', now() )";
+                        $storeUserInfo = "INSERT INTO users(UserName,Password,Email,FullName,RegStatus,Date) 
+                                  VALUES('$UserName','$Password','$Email','$FullName', 1 ,now() )";
                         $flag = mysqli_query($connection,$storeUserInfo);
                         if ($flag){
                             successDisplay("Row Inserted Successfully");
