@@ -29,10 +29,19 @@ h1{
     color: #888;
     margin-top: 10px;
 }
+.success-msg{
+    margin-top: 50px;
+}
 .members-table{
-    position: relative;
     top: 32px;
-    left: 10px;
+    font-size: 17px;
+}
+.members-table a{
+    width: 80px;
+    height: 60px;
+}
+.link-group{
+    width: 240px;
 }
  .add-btn{
      margin-top: 31px;
@@ -43,18 +52,18 @@ h1{
     margin-top: 20px;
     color: #FFF;
 }
- .stat .st-members{
+ .st-members{
     background-color: #f0932b;
 }
-.stat .st-pending{
+.st-pending{
     background-color:#eb4d4b;
 }
 
-.home-stat .stat .st-items{
+.st-items{
     background-color:#be2edd;
 }
 
-.home-stat .stat .st-comments{
+.st-comments{
     background-color:#686de0;
 }
 .home-stat .stat span{
@@ -63,17 +72,31 @@ h1{
     font-size: 60px;
     font-weight: 300;
 }
-.home-stat .stat span a:hover{
-    text-decoration: none;
+.stat span a{
+    color: #FFF;
 }
+.stat span a:hover{
+    text-decoration: none;
+
+}
+
+/* LATEST SECTION*/
 .latest{
-    margin-top: 10px;
+    margin-top: 50px;
 }
 .latest .panel-head{
     background-color: #BEBEBE;
 }
-.latest .panel-body{
-    background-color: #f5f5f5;
+.panel-body{
+    background-color: #f0932b;
+    color: #FFF;
+    letter-spacing: 3px;
+    paddiing-left: 10px;
+    padding-left: 20px;
+    font-style: oblique;
+    font-weight: 400;
+    font-size: 20px;
 
 }
+
 /*End Dashboard*/

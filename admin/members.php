@@ -36,9 +36,14 @@ if (isset($_SESSION['UserName'])) {
                     <td><?php echo $rows['FullName'];?></td>
                     <td><?php echo $rows['Date'];?></td>
                     <td>
-                            <div class="btn-group">
+                            <div class="btn-group link-group">
                                 <a href="members.php?do=Edit&UserID=<?php echo $rows['UserID'];?>" class="btn btn-warning">Update <i class="fas fa-user-edit"></i></a>
                                 <a href="members.php?do=Delete&UserID=<?php echo $rows['UserID'];?>" class="btn btn-danger confirm">Delete <i class="fas fa-trash"></i></a>
+                               <?php
+                               if ($rows['RegStatus'] == 0){
+                                   echo "<a href='members.php?do=Activate&UserID=" . $rows['UserID'] . "' class='btn btn-info'> Activate  <i class='fas fa-hand-pointer'></i></a>";
+                               }
+                               ?>
                             </div>
                     </td>
                 </tr>
@@ -271,10 +276,73 @@ if (isset($_SESSION['UserName'])) {
                 errorDisplay($errors);
             }
         }
+    } elseif ($do == 'Pending'){
+        // Display Pended Users
+        $allUsersFromDB = "SELECT * FROM users WHERE RegStatus = 0";
+        $result = mysqli_query($connection,$allUsersFromDB);
+        if ($result) {
+
+
+            // table to show all pending members
+            ?>
+
+
+            <div class="container">
+                <h1 class="text-center">Manage Member</h1>
+                <table class="table members-table table-responsive table-hover text-center">
+                    <tr>
+                        <th>#ID</th>
+                        <th>UserName</th>
+                        <th>Password</th>
+                        <th>Email</th>
+                        <th>FullName</th>
+                        <th>Registered Date</th>
+                        <th>Control</th>
+                    </tr>
+                    <?php while($rows = mysqli_fetch_assoc($result)){ ?>
+                        <tr>
+                            <td><?php echo $rows['UserID'];?></td>
+                            <td><?php echo $rows['UserName'];?></td>
+                            <td><?php echo $rows['Password'];?></td>
+                            <td><?php echo $rows['Email'];?></td>
+                            <td><?php echo $rows['FullName'];?></td>
+                            <td><?php echo $rows['Date'];?></td>
+                            <td>
+                                <div class="btn-group link-group">
+                                    <a href="members.php?do=Edit&UserID=<?php echo $rows['UserID'];?>" class="btn btn-warning">Update <i class="fas fa-user-edit"></i></a>
+                                    <a href="members.php?do=Delete&UserID=<?php echo $rows['UserID'];?>" class="btn btn-danger confirm">Delete <i class="fas fa-trash"></i></a>
+                                    <a href="members.php?do=Activate&UserID=<?php echo $rows['UserID'];?>" class="btn btn-info">Activate <i class="fas fa-hand-pointer"></i> </a>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php }?>
+                </table>
+
+            </div>
+
+            <?php
+        }
+
+    }elseif ($do == "Activate"){
+        // start Activate Page
+        if (isset($_GET['UserID'])){
+            $UserID = intval($_GET['UserID']);
+            $activateQuery = "UPDATE users SET RegStatus=1 WHERE UserID='$UserID'";
+            $result = mysqli_query($connection,$activateQuery);
+            if (!$result){
+                errorDisplay(array("Cannot Perform Activate Processing"));
+            }else{
+                successDisplay("Activated");
+                successDisplay("You Will Be redirected After 3 seconds");
+                header("refresh: 3;url=members.php");
+            }
+        }
     }
 
-}else{
-    header('Location: index.php');
 }
 
+
+else{
+    header('Location: index.php');
+}
 include $temps . 'footer.php';
