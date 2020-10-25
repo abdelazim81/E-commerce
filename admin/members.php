@@ -334,15 +334,15 @@ if (isset($_SESSION['UserName'])) {
             }else{
                 successDisplay("Activated");
                 successDisplay("You Will Be redirected After 3 seconds");
-                header("refresh: 3;url=members.php");
+                header("refresh: 3;url=index.php");
             }
         }
     }
-
+    include $temps . 'footer.php';
 }
 
 
 else{
     header('Location: index.php');
+    exit();
 }
-include $temps . 'footer.php';

@@ -3,8 +3,8 @@ session_start();
 if(isset($_SESSION['UserName'])){
     $pageTitle = 'Dashboard';
     include 'init.php';
-    $LatestUsersLimit = 5;
-    $LatestUsers =  getLatest('UserName','users','UserID',$LatestUsersLimit);
+    $LatestUsersLimit = 3;
+    $LatestUsers =  getLatest('*','users','UserID',$LatestUsersLimit);
     ?>
     <!--html of dashboard-->
     <section class="home-stat text-center">
@@ -48,9 +48,24 @@ if(isset($_SESSION['UserName'])){
                     </div>
                     <div class="panel-body" >
                        <?php
+                       echo '<ul class="list-unstyled">';
                        while ($row = mysqli_fetch_assoc($LatestUsers)){
-                           echo $row['UserName'] . '<br>';
+                           ?>
+                             <li>
+                                 <?php echo $row['UserName'] ;?>
+
+                                 <a href="members.php?do=Edit&UserID=<?php echo $row['UserID'];?>" class="btn btn-warning fa-pull-right">Update <i class="fas fa-user-edit"></i></a>
+                            <?php
+                            if ($row['RegStatus'] == 0){
+                                echo "<a href='members.php?do=Activate&UserID=" . $row['UserID'] . "' class='btn btn-info fa-pull-right'>Activate<i class='fas fa-hand-pointer'></i></a>";
+                            }
+                            ?>
+
+                             </li>
+
+                           <?php
                        }
+                       echo '</ul>';
                        ?>
                     </div>
                 </div>

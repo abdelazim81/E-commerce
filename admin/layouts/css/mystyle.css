@@ -85,7 +85,7 @@ h1{
     margin-top: 50px;
 }
 .latest .panel-head{
-    background-color: #BEBEBE;
+    background-color: #d35400;
 }
 .panel-body{
     background-color: #f0932b;
@@ -97,6 +97,19 @@ h1{
     font-weight: 400;
     font-size: 20px;
 
+}
+.latest li{
+    overflow: hidden;
+    padding: 8px;
+}
+.latest li a{
+    color: #FFF;
+}
+.latest li a:hover{
+    text-decoration: none;
+}
+.latest li:nth-child(odd){
+    background-color:rgba(3,3,3,.03);
 }
 
 /*End Dashboard*/
