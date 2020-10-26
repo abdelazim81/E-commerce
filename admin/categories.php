@@ -5,7 +5,42 @@ if (isset($_SESSION['UserName'])){
     include 'init.php';
     $do = isset($_GET['do']) ? $_GET['do'] : 'manage';
     if ($do == 'manage'){
-        echo 'Welcome To Manage Page';
+        // manage Page HERE
+        $selectCategories = "SELECT * FROM categories";
+        $result           = mysqli_query($connection,$selectCategories);
+        if (! $result){errorDisplay(array('Cannot Get All Categories'));}
+        ?>
+        <div class="container">
+            <h1 class="text-center">Manage Categories</h1>
+            <div class="panel-head mng-cat text-center">
+                <i class="fas fa-sitemap"></i> Categories
+            </div>
+            <div class="panel-body categories">
+
+
+                <?php
+                while ($cats = mysqli_fetch_assoc($result)){
+                    echo "<div class='cat'>";
+                        echo "<h3>" . $cats['Name'] . "</h3>";
+                        echo "<p>" . $cats['Description'] . "</p>";
+                        if ($cats['visibility'] == 1){
+                            echo "<span class='visibility'>" .  'Hidden'  . "</span>";
+                        }
+                        if ($cats['Allow_Comment'] == 1){
+                            echo "<span class='commenting'>" .  'Comments Disabled'  . "</span>";
+                        }
+                        if ($cats['Allow_Ads'] == 1){
+                            echo "<span class='Ads'>" .  'Ads Disabled'  . "</span>";
+                        }
+                    echo "</div>";
+                }
+                ?>
+
+
+            </div>
+            <a href="categories.php?do=Create" class=" btn btn-primary">Add New Category <i class="fas fa-plus"></i> </a>
+        </div>
+<?php
     }elseif ($do == 'Create'){
         // Start create Page
 ?>

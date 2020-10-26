@@ -84,7 +84,7 @@ h1{
 .latest{
     margin-top: 50px;
 }
-.latest .panel-head{
+.panel-head{
     background-color: #d35400;
 }
 .panel-body{
@@ -108,8 +108,56 @@ h1{
 .latest li a:hover{
     text-decoration: none;
 }
-.latest li:nth-child(odd){
+li:nth-child(odd){
     background-color:rgba(3,3,3,.03);
 }
 
+
+
 /*End Dashboard*/
+
+/* Start Category Page*/
+
+.panel-head{
+    background-color: #d35400;
+}
+.panel-body{
+    min-height: 150px;
+}
+.mng-cat{
+    letter-spacing: 15px;
+    color: #FFF;
+    font-weight: bold;
+    font-style: oblique;
+}
+.cat{
+    padding-top: 5px;
+}
+
+.cat .visibility{
+    background-color: #341f97;
+    padding: 4px;
+    margin-right: 5px;
+    overflow: hidden;
+    border-radius: 5px;
+}
+.cat .commenting{
+    background-color: #576574;
+    padding: 4px;
+    margin-right: 5px;
+    overflow: hidden;
+    border-radius: 5px;
+}
+.cat .Ads{
+    background-color: #833471;
+    padding: 4px;
+    margin-right: 5px;
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+.categories .btn-primary{
+    padding: 5px;
+    margin-top: 4px;
+}
+/* END Category Page*/
