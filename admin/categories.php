@@ -6,7 +6,12 @@ if (isset($_SESSION['UserName'])){
     $do = isset($_GET['do']) ? $_GET['do'] : 'manage';
     if ($do == 'manage'){
         // manage Page HERE
-        $selectCategories = "SELECT * FROM categories";
+        $sort = "DESC";
+        $sort_array = array("ASC","DESC");
+        if (isset($_GET['sort'] ) && in_array($_GET['sort'],$sort_array)){
+            $sort = $_GET['sort'];
+        }
+        $selectCategories = "SELECT * FROM categories ORDER BY `Ordering` $sort";
         $result           = mysqli_query($connection,$selectCategories);
         if (! $result){errorDisplay(array('Cannot Get All Categories'));}
         ?>
@@ -14,6 +19,11 @@ if (isset($_SESSION['UserName'])){
             <h1 class="text-center">Manage Categories</h1>
             <div class="panel-head mng-cat text-center">
                 <i class="fas fa-sitemap"></i> Categories
+                <div class="ordering fa-pull-right">
+                    Order:
+                    <a class="<?php if ($sort=='ASC'){echo 'active';}?>" href="?sort=ASC">Asc</a> |
+                    <a class="<?php if ($sort=='DESC'){echo 'active';}?>" href="?sort=Desc">Desc</a>
+                </div>
             </div>
             <div class="panel-body categories">
 
@@ -21,6 +31,10 @@ if (isset($_SESSION['UserName'])){
                 <?php
                 while ($cats = mysqli_fetch_assoc($result)){
                     echo "<div class='cat'>";
+                    echo "<div class='hidden-button'>";
+                    echo "<a href='categories.php?do=Edit&catID=" . $cats['ID'] . "' class='btn btn-warning'><i class='fas fa-edit'></i> Edit</a>";
+                    echo "<a href='categories.php?do=Delete&catID=" . $cats['ID'] . "' class='btn btn-danger'><i class='fas fa-window-close'></i> Edit</a>";
+                    echo "</div>";
                         echo "<h3>" . $cats['Name'] . "</h3>";
                         echo "<p>" . $cats['Description'] . "</p>";
                         if ($cats['visibility'] == 1){
@@ -38,7 +52,7 @@ if (isset($_SESSION['UserName'])){
 
 
             </div>
-            <a href="categories.php?do=Create" class=" btn btn-primary">Add New Category <i class="fas fa-plus"></i> </a>
+            <a href="categories.php?do=Create" class=" btn btn-primary text-center">Add New Category <i class="fas fa-plus"></i> </a>
         </div>
 <?php
     }elseif ($do == 'Create'){
@@ -124,6 +138,9 @@ if (isset($_SESSION['UserName'])){
                 if(! $flag){
                     errorDisplay(array('Cannot Add New Category'));
                 }
+                successDisplay("New category is Added");
+                successDisplay("You will be redirected to categories page after 5 seconds");
+                header('refresh:5;url=categories.php');
             }
 
 
