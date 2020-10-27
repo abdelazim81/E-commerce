@@ -29,6 +29,8 @@ if (isset($_SESSION['UserName'])){
 
 
                 <?php
+                // Display all categories
+
                 while ($cats = mysqli_fetch_assoc($result)){
                     echo "<div class='cat'>";
                     echo "<div class='hidden-button'>";
@@ -58,7 +60,7 @@ if (isset($_SESSION['UserName'])){
     }elseif ($do == 'Create'){
         // Start create Page
 ?>
-        <div class="login-form text-center">
+        <div class="container text-center add-cat">
             <form  method="post" class="form" action="categories.php?do=Store">
                 <h3 class="text-center">Create New Category</h3>
                 <div class="form-group ">
@@ -145,7 +147,87 @@ if (isset($_SESSION['UserName'])){
 
 
         }
-    }
+    }elseif ($do == 'Edit'){
+        // start edit page
+        if (isset($_GET['catID'])){
+            $catID = intval($_GET['catID']);
+            $selectCategory = "SELECT * FROM categories WHERE ID = '$catID'";
+            $result = mysqli_query($connection, $selectCategory);
+            if (!$result){errorDisplay(array('Cannot get this category'));}
+            while($row = mysqli_fetch_assoc($result)){
+
+
+                ?>
+            <div class="container text-center add-cat">
+                <form  method="post" class="form" action="categories.php?do=Store">
+                    <h3 class="text-center">Create New Category</h3>
+                    <div class="form-group ">
+                        <input type="text" class="form-control" name="name" value="<?php echo $row['Name'];?>" required>
+                    </div>
+                    <div class="form-group">
+                        <input  type="text" name="description"  class="form-control" value="<?php echo $row['Description'];?>">
+                    </div>
+                    <div class="form-group">
+                        <input  type="text" name="ordering"  class="form-control" value="<?php echo $row['Ordering'];?>">
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="">Visibility</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <div>
+                                <input type="radio" name="visibility" value="0" id="vis-yes" <?php if ($row['visibility'] == 0){ echo 'checked';}?>>
+                                <label for="vis-yes"> Yes</label>
+                            </div>
+                            <div>
+                                <input type="radio" name="visibility" value="1" id="vis-no" <?php if ($row['visibility'] == 1){ echo 'checked';}?>>
+                                <label for="vis-no"> No</label>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="">Allow commenting</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <div>
+                                <input type="radio" name="commenting" value="0" <?php if ($row['Allow_Comment'] == 0){ echo 'checked';}?> id="com-yes">
+                                <label for="com-yes"> Yes</label>
+                            </div>
+                            <div>
+                                <input type="radio" name="commenting" value="1"  id="com-no" <?php if ($row['Allow_Comment'] == 1){ echo 'checked';}?>>
+                                <label for="com-no"> No</label>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="">Allow Ads</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <div>
+                                <input type="radio" name="Ads" value="0"  id="ads-yes" <?php if ($row['Allow_Ads'] == 0){ echo 'checked';}?>>
+                                <label for="vis-yes"> Yes</label>
+                            </div>
+                            <div>
+                                <input type="radio" name="Ads" value="1"  id="ads-no" <?php if ($row['Allow_Ads'] == 1){ echo 'checked';}?>>
+                                <label for="ads-no"> No</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" name="createCategory" class="btn btn-primary">Add New Category</button>
+                </form>
+            </div>
+
+                <?php
+            } // end of while loop for dispalying items to edit
+            }
+        }
+
+
     include $temps . 'footer.php';
 }else{
     header('index.php');

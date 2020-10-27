@@ -192,4 +192,11 @@ li:nth-child(odd){
     padding: 5px;
     margin-top: 7px;
 }
+.add-cat{
+    max-width: 800px;
+    padding-top: 35px;
+}
+.add-cat h3{
+    padding-bottom: 20px;
+}
 /* END Category Page*/
