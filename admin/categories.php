@@ -35,7 +35,7 @@ if (isset($_SESSION['UserName'])){
                     echo "<div class='cat'>";
                     echo "<div class='hidden-button'>";
                     echo "<a href='categories.php?do=Edit&catID=" . $cats['ID'] . "' class='btn btn-warning'><i class='fas fa-edit'></i> Edit</a>";
-                    echo "<a href='categories.php?do=Delete&catID=" . $cats['ID'] . "' class='btn btn-danger'><i class='fas fa-window-close'></i> Edit</a>";
+                    echo "<a href='categories.php?do=Delete&catID=" . $cats['ID'] . "' class='confirm btn btn-danger'><i class='fas fa-window-close'></i> DELETE</a>";
                     echo "</div>";
                         echo "<h3>" . $cats['Name'] . "</h3>";
                         echo "<p>" . $cats['Description'] . "</p>";
@@ -159,9 +159,10 @@ if (isset($_SESSION['UserName'])){
 
                 ?>
             <div class="container text-center add-cat">
-                <form  method="post" class="form" action="categories.php?do=Store">
+                <form  method="post" class="form" action="categories.php?do=Update">
                     <h3 class="text-center">Create New Category</h3>
                     <div class="form-group ">
+                        <input type="hidden" name="ID" value="<?php echo $row['ID'];?>">
                         <input type="text" class="form-control" name="name" value="<?php echo $row['Name'];?>" required>
                     </div>
                     <div class="form-group">
@@ -218,14 +219,52 @@ if (isset($_SESSION['UserName'])){
                         </div>
                     </div>
 
-                    <button type="submit" name="createCategory" class="btn btn-primary">Add New Category</button>
+                    <button type="submit" name="updateCategory" class="btn btn-primary">Save <i class="fas fa-save"></i></button>
                 </form>
             </div>
 
                 <?php
             } // end of while loop for dispalying items to edit
             }
+        }elseif ($do ==  'Update'){
+        // start of update page
+        if (isset($_POST['updateCategory'])){
+            $ID = $_POST['ID'];
+            $Name = $_POST['name'];
+            $Description = $_POST['description'];
+            $Ordering = $_POST['ordering'];
+            $Visibility = $_POST['visibility'];
+            $Allow_Comment = $_POST['commenting'];
+            $Allow_Ads = $_POST['Ads'];
+            $updateCategory = "UPDATE categories SET Name='$Name', Description='$Description', Ordering='$Ordering',
+                                   visibility='$Visibility', Allow_comment='$Allow_Comment',
+                                   Allow_Ads='$Allow_Ads' WHERE ID='$ID' ";
+            $result = mysqli_query($connection,$updateCategory);
+            if (! $result){
+                errorDisplay(array('Cannot update the category'));
+            }else{
+                successDisplay('Category Updated Successfully and you will be redirected to categories page');
+                header('refresh:5;url=categories.php');
+            }
+
         }
+    }elseif ($do == 'Delete'){
+        if (isset($_GET['catID'])){
+            $ID = $_GET['catID'];
+            $deleteCatQuery = "DELETE FROM categories WHERE ID='$ID'";
+            $flag = mysqli_query($connection,$deleteCatQuery);
+            if ($flag){
+                successDisplay('DELETED and you will be redirected');
+                header('refresh: 5;url=categories.php');
+                exit();
+            }else{
+                $errors = array('Cannot Delete A Category');
+                errorDisplay($errors);
+                header('refresh: 5;url=categories.php');
+                exit();
+            }
+        }
+    }
 
 
     include $temps . 'footer.php';
