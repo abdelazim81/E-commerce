@@ -9,6 +9,10 @@ body{
     position: relative;
     top: -377px;
 }
+.login-form h3{
+    padding-bottom: 20px;
+    color: #878787;
+}
 .right{
     margin-left: 150px;
 }
@@ -200,3 +204,12 @@ li:nth-child(odd){
     padding-bottom: 20px;
 }
 /* END Category Page*/
+
+
+
+/*start item page*/
+.add-item{
+    margin-top: 40px;
+}
+/*end item page*/
+
