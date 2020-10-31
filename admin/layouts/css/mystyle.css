@@ -211,5 +211,12 @@ li:nth-child(odd){
 .add-item{
     margin-top: 40px;
 }
+select{
+    min-width: 300px;
+}
+label{
+    max-width: 200px;
+    min-width: 200px;
+}
 /*end item page*/
 

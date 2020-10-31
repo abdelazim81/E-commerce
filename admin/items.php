@@ -6,6 +6,7 @@ if (isset($_SESSION['UserName'])){
     $do = isset($_GET['do']) ? $_GET['do'] : 'manage';
     if ($do == 'manage'){
         // start manage page
+        echo "<a href='items.php?do=Add' class='btn btn-primary'> Add New Item Page</a>";
     }elseif ($do == 'Add'){
         // start add page
         ?>
@@ -24,14 +25,53 @@ if (isset($_SESSION['UserName'])){
                     <div class="form-group ">
                         <input type="text" class="form-control" name="country" placeholder="Enter Country Made!" >
                     </div>
+                    <!-- SELECT BOX FOR STATUS-->
                     <div class="form-group ">
                         <label for="status"> Status</label>
                         <select name="status" id="status">
-                            <option value="0">........</option>
+                            <option value="0">Select Status</option>
                             <option value="1">New</option>
                             <option value="1">Like New</option>
                             <option value="1">Used</option>
                             <option value="1">Very Old</option>
+                        </select>
+                    </div>
+                    <!--SELECT BOX FOR MEMBERS-->
+                    <div class="form-group ">
+                        <label for="user"> User</label>
+                        <select name="user" id="user">
+                            <option value="0">Select User</option>
+                            <?php
+                            $selectUsers = "SELECT * FROM users";
+                            $flag =mysqli_query($connection, $selectUsers);
+                            if (! $flag){
+                                errorDisplay(array("Cannot Get Users"));
+                            }else{
+                                while( $user = mysqli_fetch_assoc($flag)){
+
+                                    echo "<option value='" . $user['UserID'] . "'> " . $user['UserName'] . "</option>";
+                                }
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <!--SELECT BOX FOR CATEGORIES-->
+                    <div class="form-group ">
+                        <label for="categories">Categories</label>
+                        <select name="categories" id="categories">
+                            <option value="0">Select Category</option>
+                            <?php
+                            $selectUsers = "SELECT * FROM categories";
+                            $flag =mysqli_query($connection, $selectUsers);
+                            if (! $flag){
+                                errorDisplay(array("Cannot Get Users"));
+                            }else{
+                                while( $cat = mysqli_fetch_assoc($flag)){
+
+                                    echo "<option value='" . $cat['ID'] . "'> " . $cat['Name'] . "</option>";
+                                }
+                            }
+                            ?>
                         </select>
                     </div>
                     <button class="btn btn-warning" type="reset">Reset Data <i class="fas fa-redo"></i></button>
@@ -46,6 +86,8 @@ if (isset($_SESSION['UserName'])){
             $price = $_POST['price'];
             $country = $_POST['country'];
             $status = $_POST['status'];
+            $user  = $_POST['user'];
+            $category = $_POST['categories'];
             $errors_array = array();
             if (empty($name)){
                 $errors_array[] = "Name Of The Item Cannot Be Empty Please Enter A Name";
@@ -62,13 +104,21 @@ if (isset($_SESSION['UserName'])){
             if ($status == 0){
                 $errors_array[] = "Please Enter The Status Of The Item";
             }
+            if ($user == 0){
+                $errors_array[] = "Please Enter The Member Of The Item";
+            }
+            if ($category == 0){
+                $errors_array[] = "Please Enter The Category Of The Item";
+            }
             if (empty($errors_array)){
-                $insertItemQuery = "INSERT INTO `items` (`Item_Name`, `Item_Desc`, `Item_Price`, `Item_Date`, `Item_Country`, `Item_Image`, `Item_Status`, `Item_Rating`, `Cat_ID`, `Member_ID`) VALUES ( '$name', '$desc', '$price', now(), '$country', NULL, '$status', NULL, NULL, NULL)";
+                $insertItemQuery = "INSERT INTO `items` (`Item_Name`, `Item_Desc`, `Item_Price`, `Item_Date`, `Item_Country`, `Item_Image`, `Item_Status`, `Item_Rating`, `Cat_ID`, `Member_ID`) VALUES ( '$name', '$desc', '$price', now(), '$country', NULL, '$status', NULL, '$category', '$user')";
                 $flag = mysqli_query($connection,$insertItemQuery);
                 if (! $flag){
                     errorDisplay(array('Cannot Insert New Items'));
                 }else{
                     successDisplay('New Item Inserted Successfully');
+                    header('refresh:5;url=items.php');
+                    exit();
                 }
             }else{
                 errorDisplay($errors_array);
@@ -76,6 +126,7 @@ if (isset($_SESSION['UserName'])){
         }else{
             errorDisplay(array("You Can\'t Get This Page Directly"));
             header('refresh:5;url=index.php');
+            exit();
         }
     }
     include $temps . 'footer.php';
