@@ -138,6 +138,9 @@ if (isset($_SESSION['UserName'])) {
 
             }
 
+        }else{
+            errorDisplay(array("You Can\'t Get This Page Directly"));
+            header('refresh:5;url=index.php');
         }
 
     }elseif ($do =='Edit'){
@@ -262,6 +265,9 @@ if (isset($_SESSION['UserName'])) {
                 }
             }
 
+        }else{
+            errorDisplay(array("You Can\'t Get This Page Directly"));
+            header('refresh:5;url=index.php');
         }
     }elseif ($do == 'Delete'){
                                    // start Delete Page
@@ -275,6 +281,9 @@ if (isset($_SESSION['UserName'])) {
                 $errors = array('Cannot Delete A User');
                 errorDisplay($errors);
             }
+        }else{
+            errorDisplay(array("You Can\'t Get This Page Directly"));
+            header('refresh:5;url=index.php');
         }
     } elseif ($do == 'Pending'){
         // Display Pended Users
@@ -336,6 +345,9 @@ if (isset($_SESSION['UserName'])) {
                 successDisplay("You Will Be redirected After 3 seconds");
                 header("refresh: 3;url=index.php");
             }
+        }else{
+            errorDisplay(array("You Can\'t Get This Page Directly"));
+            header('refresh:5;url=index.php');
         }
     }
     include $temps . 'footer.php';

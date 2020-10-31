@@ -146,6 +146,9 @@ if (isset($_SESSION['UserName'])){
             }
 
 
+        }else{
+            errorDisplay(array("You Can\'t Get This Page Directly"));
+            header('refresh:5;url=index.php');
         }
     }elseif ($do == 'Edit'){
         // start edit page
@@ -247,6 +250,9 @@ if (isset($_SESSION['UserName'])){
                 header('refresh:5;url=categories.php');
             }
 
+        }else{
+            errorDisplay(array("You Can\'t Get This Page Directly"));
+            header('refresh:5;url=index.php');
         }
     }elseif ($do == 'Delete'){
         if (isset($_GET['catID'])){
@@ -263,6 +269,9 @@ if (isset($_SESSION['UserName'])){
                 header('refresh: 5;url=categories.php');
                 exit();
             }
+        }else{
+            errorDisplay(array("You Can\'t Get This Page Directly"));
+            header('refresh:5;url=index.php');
         }
     }
 
