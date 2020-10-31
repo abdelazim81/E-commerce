@@ -6,7 +6,53 @@ if (isset($_SESSION['UserName'])){
     $do = isset($_GET['do']) ? $_GET['do'] : 'manage';
     if ($do == 'manage'){
         // start manage page
-        echo "<a href='items.php?do=Add' class='btn btn-primary'> Add New Item Page</a>";
+        $allItemsFromDB = "SELECT * FROM items";
+        $result = mysqli_query($connection,$allItemsFromDB);
+        if ($result) {
+
+
+            // table to show all Items
+            ?>
+
+
+            <div class="container">
+                <h1 class="text-center">Manage Items</h1>
+                <table class="table members-table table-responsive table-hover text-center">
+                    <tr>
+                        <th>#ID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Country</th>
+                        <th>Add Date</th>
+                        <th>Control</th>
+                    </tr>
+                    <?php while($rows = mysqli_fetch_assoc($result)){ ?>
+                        <tr>
+                            <td><?php echo $rows['Item_ID'];?></td>
+                            <td><?php echo $rows['Item_Name'];?></td>
+                            <td><?php echo $rows['Item_Desc'];?></td>
+                            <td><?php echo $rows['Item_Price'];?></td>
+                            <td><?php echo $rows['Item_Country'];?></td>
+                            <td><?php echo $rows['Item_Date'];?></td>
+                            <td>
+                                <div class="btn-group link-group">
+                                    <a href="items.php?do=Edit&ItemID=<?php echo $rows['Item_ID'];?>" class="btn btn-warning">Update <i class="fas fa-user-edit"></i></a>
+                                    <a href="items.php?do=Delete&ItemID=<?php echo $rows['Item_ID'];?>" class="btn btn-danger confirm">Delete <i class="fas fa-trash"></i></a>
+
+                                </div>
+                            </td>
+                        </tr>
+                    <?php }?>
+                </table>
+                <div class="btn-group">
+                    <a class="btn btn-primary add-btn " href="items.php?do=Add"> Add New Item <i class="fas fa-plus"></i> </a>
+                </div>
+
+            </div>
+
+            <?php
+        }
     }elseif ($do == 'Add'){
         // start add page
         ?>

@@ -14,7 +14,7 @@ if(isset($_SESSION['UserName'])){
                 <div class="col-md-3">
                     <div class="stat st-members" >
                         Total Members
-                        <span ><a href="members.php?do=manage"><?php echo getUsersCount('UserID','users');?></a></span>
+                        <span ><a href="members.php?do=manage"><?php echo getItemsCount('UserID','users');?></a></span>
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -26,7 +26,7 @@ if(isset($_SESSION['UserName'])){
                 <div class="col-md-3">
                     <div class="stat st-items" >
                         Total Items
-                        <span >1500</span>
+                        <span ><a href="items.php?do=manage"><?php echo getItemsCount('Item_ID','items');?></a></span>
                     </div>
                 </div>
                 <div class="col-md-3">
