@@ -6,7 +6,9 @@ if (isset($_SESSION['UserName'])){
     $do = isset($_GET['do']) ? $_GET['do'] : 'manage';
     if ($do == 'manage'){
         // start manage page
-        $allItemsFromDB = "SELECT * FROM items";
+        $allItemsFromDB = "SELECT items.*, categories.Name AS Category_name,users.UserName AS User_name FROM items
+                            INNER JOIN categories ON items.Cat_ID = categories.ID
+                            INNER JOIN users ON items.Member_ID = users.UserID";
         $result = mysqli_query($connection,$allItemsFromDB);
         if ($result) {
 
@@ -24,6 +26,8 @@ if (isset($_SESSION['UserName'])){
                         <th>Description</th>
                         <th>Price</th>
                         <th>Country</th>
+                        <th>Category</th>
+                        <th>User</th>
                         <th>Add Date</th>
                         <th>Control</th>
                     </tr>
@@ -34,6 +38,8 @@ if (isset($_SESSION['UserName'])){
                             <td><?php echo $rows['Item_Desc'];?></td>
                             <td><?php echo $rows['Item_Price'];?></td>
                             <td><?php echo $rows['Item_Country'];?></td>
+                            <td><?php echo $rows['Category_name'];?></td>
+                            <td><?php echo $rows['User_name'];?></td>
                             <td><?php echo $rows['Item_Date'];?></td>
                             <td>
                                 <div class="btn-group link-group">
