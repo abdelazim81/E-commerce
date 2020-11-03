@@ -4,10 +4,11 @@ body{
 }
 .login-form{
     width: 300px;
-    margin: 150px auto;
+    margin: 100px auto;
     padding: 15px;
     position: relative;
     top: -377px;
+    margin-bottom: 0;
 }
 .login-form h3{
     padding-bottom: 20px;

@@ -83,9 +83,9 @@ if (isset($_SESSION['UserName'])){
                         <select name="status" id="status">
                             <option value="0">Select Status</option>
                             <option value="1">New</option>
-                            <option value="1">Like New</option>
-                            <option value="1">Used</option>
-                            <option value="1">Very Old</option>
+                            <option value="2">Like New</option>
+                            <option value="3">Used</option>
+                            <option value="4">Very Old</option>
                         </select>
                     </div>
                     <!--SELECT BOX FOR MEMBERS-->
@@ -178,6 +178,101 @@ if (isset($_SESSION['UserName'])){
         }else{
             errorDisplay(array("You Can\'t Get This Page Directly"));
             header('refresh:5;url=index.php');
+            exit();
+        }
+    }elseif ($do == 'Edit'){
+        // start edit page
+        if (isset($_GET['ItemID'])){
+            $itemID = intval($_GET['ItemID']);
+            $selectItemByID = "SELECT * FROM items WHERE Item_ID='$itemID'";
+            $flag = mysqli_query($connection, $selectItemByID);
+            if (! $flag){
+                errorDisplay(array('Cannot Get Item'));
+            }
+            $row = mysqli_fetch_assoc($flag);
+            ?>
+            <div class=" login-form text-center">
+                <form  method="post" class="form" action="items.php?do=Store">
+                    <h3 class="text-center">Add New Item</h3>
+                    <div class="form-group ">
+                        <input type="text" class="form-control" name="name" value="<?php echo $row['Item_Name'];?>"  >
+                        <input type="text" class="form-control" name="id" value="<?php echo $row['Item_ID'];?>"  >
+
+                    </div>
+                    <div class="form-group ">
+                        <input type="text" class="form-control" name="description" value="<?php echo $row['Item_Desc'];?>"  >
+                    </div>
+                    <div class="form-group">
+                        <input type="text" value="" name="price"  class="form-control" value="<?php echo $row['Item_Price'];?>" >
+                    </div>
+                    <div class="form-group ">
+                        <input type="text" class="form-control" name="country" value="<?php echo $row['Item_Country'];?>" >
+                    </div>
+                    <!-- SELECT BOX FOR STATUS-->
+                    <div class="form-group ">
+                        <label for="status"> Status</label>
+                        <select name="status" id="status">
+                            <option value="1" <?php if ($row['Item_Status'] == 1) echo 'selected'?>>New</option>
+                            <option value="2" <?php if ($row['Item_Status'] == 2) echo 'selected'?>>Like New</option>
+                            <option value="3" <?php if ($row['Item_Status'] == 3) echo 'selected'?>>Used</option>
+                            <option value="4" <?php if ($row['Item_Status'] == 4) echo 'selected'?>>Very Old</option>
+                        </select>
+                    </div>
+                    <!--SELECT BOX FOR MEMBERS-->
+                    <div class="form-group ">
+                        <label for="user"> User</label>
+                        <select name="user" id="user">
+                            <option value="0">Select User</option>
+                            <?php
+                            $selectUsers = "SELECT * FROM users";
+                            $flag =mysqli_query($connection, $selectUsers);
+                            if (! $flag){
+                                errorDisplay(array("Cannot Get Users"));
+                            }else{
+                                while( $user = mysqli_fetch_assoc($flag)){
+
+                                    echo "<option value='" . $user['UserID'] . "'";
+                                    if ($row['Member_ID'] == $user['UserID']){
+                                        echo 'selected';
+                                    }
+                                    echo "> " . $user['UserName'] . "</option>";
+                                }
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <!--SELECT BOX FOR CATEGORIES-->
+                    <div class="form-group ">
+                        <label for="categories">Categories</label>
+                        <select name="categories" id="categories">
+                            <option value="0">Select Category</option>
+                            <?php
+                            $selectUsers = "SELECT * FROM categories";
+                            $flag =mysqli_query($connection, $selectUsers);
+                            if (! $flag){
+                                errorDisplay(array("Cannot Get Users"));
+                            }else{
+                                while( $cat = mysqli_fetch_assoc($flag)){
+
+                                    echo "<option value='" . $cat['ID'] . "'";
+                                    if ($row['Cat_ID'] == $cat['ID']){
+                                        echo 'selected';
+                                    }
+                                    echo "> " . $cat['Name'] . "</option>";
+                                }
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <button class="btn btn-warning" type="reset">Reset Data <i class="fas fa-redo"></i></button>
+                    <button type="submit" name="UpdateItem" class="btn btn-primary">Update Item <i class="fas fa-folder-plus"></i> </button>
+                </form>
+            </div>
+            <?php
+
+        }else{
+            errorDisplay(array("cannot update this item you will be redirected"));
+            header("refresh:5;url=items.php");
             exit();
         }
     }
