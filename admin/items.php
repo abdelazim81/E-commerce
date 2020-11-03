@@ -192,18 +192,18 @@ if (isset($_SESSION['UserName'])){
             $row = mysqli_fetch_assoc($flag);
             ?>
             <div class=" login-form text-center">
-                <form  method="post" class="form" action="items.php?do=Store">
+                <form  method="post" class="form" action="items.php?do=Update">
                     <h3 class="text-center">Add New Item</h3>
                     <div class="form-group ">
                         <input type="text" class="form-control" name="name" value="<?php echo $row['Item_Name'];?>"  >
-                        <input type="text" class="form-control" name="id" value="<?php echo $row['Item_ID'];?>"  >
+                        <input type="hidden" class="form-control" name="id" value="<?php echo $row['Item_ID'];?>"  >
 
                     </div>
                     <div class="form-group ">
                         <input type="text" class="form-control" name="description" value="<?php echo $row['Item_Desc'];?>"  >
                     </div>
                     <div class="form-group">
-                        <input type="text" value="" name="price"  class="form-control" value="<?php echo $row['Item_Price'];?>" >
+                        <input type="text" name="price"  class="form-control" value="<?php echo $row['Item_Price'];?>" >
                     </div>
                     <div class="form-group ">
                         <input type="text" class="form-control" name="country" value="<?php echo $row['Item_Country'];?>" >
@@ -269,6 +269,32 @@ if (isset($_SESSION['UserName'])){
                 </form>
             </div>
             <?php
+
+        }else{
+            errorDisplay(array("cannot update this item you will be redirected"));
+            header("refresh:5;url=items.php");
+            exit();
+        }
+    }elseif ($do == "Update"){
+        if (isset($_POST['UpdateItem'])){
+            $Item_ID = $_POST['id'];
+            $Item_Name = $_POST['name'];
+            $Item_Desc = $_POST['description'];
+            $Item_Price = $_POST['price'];
+            $Item_Status = $_POST['status'];
+            $Item_Country = $_POST['country'];
+            $Item_Member = $_POST['user'];
+            $Item_Category = $_POST['categories'];
+            $updateItem = "Update items set Item_Name='$Item_Name', Item_Desc='$Item_Desc', Item_Price='$Item_Price',
+                           Item_Country='$Item_Country', Item_Status='$Item_Status', Cat_ID='$Item_Category', 
+                           Member_ID='$Item_Member' WHERE Item_ID='$Item_ID'";
+            $updateFlag = mysqli_query($connection, $updateItem);
+            if (! $updateItem) { errorDisplay(array("Cannot Update This Item, You Will Be Redirected"));
+                header("refresh:5;url=index.php");
+                exit();
+            }
+            successDisplay("Item Updated Successfully you will be redirected to items page");
+            header("refresh:5;items.php");
 
         }else{
             errorDisplay(array("cannot update this item you will be redirected"));
