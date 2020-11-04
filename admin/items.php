@@ -301,6 +301,25 @@ if (isset($_SESSION['UserName'])){
             header("refresh:5;url=items.php");
             exit();
         }
+    }elseif ($do = "Delete"){
+        // start delete page
+        if (isset($_GET['ItemID'])){
+            $ItemID = intval($_GET['ItemID']);
+            $deleteItem = "DELETE FROM items WHERE Item_ID='$ItemID'";
+            $deleteItemFlag = mysqli_query($connection, $deleteItem);
+            if (! $deleteItemFlag){
+                errorDisplay(array("Cannot Delete This Item"));
+                header("refresh:5;url=index.php");
+                exit();
+            }
+            successDisplay("Item Is Deleted Successfully");
+            header("refresh:3;url=items.php");
+            exit();
+        }else{
+            errorDisplay(array("Cannot Delete This Item"));
+            header("refresh:5;url=index.php");
+            exit();
+        }
     }
     include $temps . 'footer.php';
 }else{
