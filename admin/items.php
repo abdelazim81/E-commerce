@@ -45,7 +45,10 @@ if (isset($_SESSION['UserName'])){
                                 <div class="btn-group link-group">
                                     <a href="items.php?do=Edit&ItemID=<?php echo $rows['Item_ID'];?>" class="btn btn-warning">Update <i class="fas fa-user-edit"></i></a>
                                     <a href="items.php?do=Delete&ItemID=<?php echo $rows['Item_ID'];?>" class="btn btn-danger confirm">Delete <i class="fas fa-trash"></i></a>
-
+                                <?php
+                                if ($rows['Approve'] == 0){?>
+                                    <a href="items.php?do=Approve&ItemID=<?php echo $rows['Item_ID'];?>" class="btn btn-primary">Approve <i class="fas fa-check"></i></a>
+                               <?php }?>
                                 </div>
                             </td>
                         </tr>
@@ -169,7 +172,7 @@ if (isset($_SESSION['UserName'])){
                     errorDisplay(array('Cannot Insert New Items'));
                 }else{
                     successDisplay('New Item Inserted Successfully');
-                    header('refresh:5;url=items.php');
+                    header('refresh:2;url=items.php');
                     exit();
                 }
             }else{
@@ -177,10 +180,31 @@ if (isset($_SESSION['UserName'])){
             }
         }else{
             errorDisplay(array("You Can\'t Get This Page Directly"));
-            header('refresh:5;url=index.php');
+            header('refresh:2;url=index.php');
             exit();
         }
-    }elseif ($do == 'Edit'){
+    }elseif ($do == 'Approve'){
+        // start Approve Page
+        if (isset($_GET['ItemID'])){
+            $ItemID = intval($_GET['ItemID']);
+            $ApproveQuery = "UPDATE items SET Approve=1 WHERE Item_ID='$ItemID'";
+            $ApproveFlag = mysqli_query($connection, $ApproveQuery);
+            if (! $ApproveFlag){
+                errorDisplay(array("Cannot Approve This Stuff"));
+                header("refresh:2;url=index.php");
+                exit();
+            }
+            successDisplay("Approved");
+            header("refresh:1;url=items.php");
+            exit();
+
+        }else{
+            errorDisplay(array("Cannot Approve This Item"));
+            header("refresh:2;url=index.php");
+            exit();
+        }
+    }
+    elseif ($do == 'Edit'){
         // start edit page
         if (isset($_GET['ItemID'])){
             $itemID = intval($_GET['ItemID']);
@@ -271,8 +295,8 @@ if (isset($_SESSION['UserName'])){
             <?php
 
         }else{
-            errorDisplay(array("cannot update this item you will be redirected"));
-            header("refresh:5;url=items.php");
+            errorDisplay(array("cannot update this item"));
+            header("refresh:2;url=items.php");
             exit();
         }
     }elseif ($do == "Update"){
@@ -289,16 +313,16 @@ if (isset($_SESSION['UserName'])){
                            Item_Country='$Item_Country', Item_Status='$Item_Status', Cat_ID='$Item_Category', 
                            Member_ID='$Item_Member' WHERE Item_ID='$Item_ID'";
             $updateFlag = mysqli_query($connection, $updateItem);
-            if (! $updateItem) { errorDisplay(array("Cannot Update This Item, You Will Be Redirected"));
-                header("refresh:5;url=index.php");
+            if (! $updateItem) { errorDisplay(array("Cannot Update This Item"));
+                header("refresh:2;url=index.php");
                 exit();
             }
-            successDisplay("Item Updated Successfully you will be redirected to items page");
-            header("refresh:5;items.php");
+            successDisplay("Item Updated Successfully ");
+            header("refresh:2;items.php");
 
         }else{
-            errorDisplay(array("cannot update this item you will be redirected"));
-            header("refresh:5;url=items.php");
+            errorDisplay(array("cannot update this item "));
+            header("refresh:2;url=items.php");
             exit();
         }
     }elseif ($do = "Delete"){
@@ -309,15 +333,15 @@ if (isset($_SESSION['UserName'])){
             $deleteItemFlag = mysqli_query($connection, $deleteItem);
             if (! $deleteItemFlag){
                 errorDisplay(array("Cannot Delete This Item"));
-                header("refresh:5;url=index.php");
+                header("refresh:2;url=index.php");
                 exit();
             }
             successDisplay("Item Is Deleted Successfully");
-            header("refresh:3;url=items.php");
+            header("refresh:2;url=items.php");
             exit();
         }else{
             errorDisplay(array("Cannot Delete This Item"));
-            header("refresh:5;url=index.php");
+            header("refresh:2;url=index.php");
             exit();
         }
     }
