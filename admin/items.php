@@ -135,6 +135,7 @@ if (isset($_SESSION['UserName'])){
             </div>
         <?php
     }elseif ($do =="Store"){
+        // start store page
         if (isset($_POST['addNewItem'])){
             $name = $_POST['name'];
             $desc = $_POST['description'];
@@ -172,7 +173,7 @@ if (isset($_SESSION['UserName'])){
                     errorDisplay(array('Cannot Insert New Items'));
                 }else{
                     successDisplay('New Item Inserted Successfully');
-                    header('refresh:2;url=items.php');
+                    header('refresh:1.5;url=index.php');
                     exit();
                 }
             }else{
@@ -180,7 +181,7 @@ if (isset($_SESSION['UserName'])){
             }
         }else{
             errorDisplay(array("You Can\'t Get This Page Directly"));
-            header('refresh:2;url=index.php');
+            header('refresh:1.5;url=index.php');
             exit();
         }
     }elseif ($do == 'Approve'){
@@ -195,7 +196,7 @@ if (isset($_SESSION['UserName'])){
                 exit();
             }
             successDisplay("Approved");
-            header("refresh:1;url=items.php");
+            header("refresh:1;url=index.php");
             exit();
 
         }else{
@@ -296,7 +297,7 @@ if (isset($_SESSION['UserName'])){
 
         }else{
             errorDisplay(array("cannot update this item"));
-            header("refresh:2;url=items.php");
+            header("refresh:2;url=index.php");
             exit();
         }
     }elseif ($do == "Update"){
@@ -318,11 +319,11 @@ if (isset($_SESSION['UserName'])){
                 exit();
             }
             successDisplay("Item Updated Successfully ");
-            header("refresh:2;items.php");
+            header("refresh:2;index.php");
 
         }else{
             errorDisplay(array("cannot update this item "));
-            header("refresh:2;url=items.php");
+            header("refresh:2;url=index.php");
             exit();
         }
     }elseif ($do = "Delete"){
@@ -337,7 +338,7 @@ if (isset($_SESSION['UserName'])){
                 exit();
             }
             successDisplay("Item Is Deleted Successfully");
-            header("refresh:2;url=items.php");
+            header("refresh:2;url=index.php");
             exit();
         }else{
             errorDisplay(array("Cannot Delete This Item"));

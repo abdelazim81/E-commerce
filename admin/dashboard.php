@@ -4,7 +4,9 @@ if(isset($_SESSION['UserName'])){
     $pageTitle = 'Dashboard';
     include 'init.php';
     $LatestUsersLimit = 3;
+    $LatestItemsLimit = 3;
     $LatestUsers =  getLatest('*','users','UserID',$LatestUsersLimit);
+    $LatestItems =  getLatest('*','items','Item_ID',$LatestItemsLimit);
     ?>
     <!--html of dashboard-->
     <section class="home-stat text-center">
@@ -13,26 +15,38 @@ if(isset($_SESSION['UserName'])){
             <div class="row">
                 <div class="col-md-3">
                     <div class="stat st-members" >
-                        Total Members
-                        <span ><a href="members.php?do=manage"><?php echo getItemsCount('UserID','users');?></a></span>
+                        <i class="fas fa-users icon"></i>
+                        <div class="info">
+                            Total Members
+                            <span ><a href="members.php?do=manage"><?php echo getItemsCount('UserID','users');?></a></span>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="stat st-pending" >
-                        Pending Members
-                        <span ><a href="members.php?do=Pending"><?php echo getPendingUsersCount('UserID','users',0)?></a></span>
+                        <i class="fas fa-user-plus icon"></i>
+                        <div class="info">
+                            Pending Members
+                            <span ><a href="members.php?do=Pending"><?php echo getPendingUsersCount('UserID','users',0)?></a></span>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="stat st-items" >
-                        Total Items
-                        <span ><a href="items.php?do=manage"><?php echo getItemsCount('Item_ID','items');?></a></span>
+                        <i class="fas fa-tags icon"></i>
+                        <div class="info">
+                            Total Items
+                            <span ><a href="items.php?do=manage"><?php echo getItemsCount('Item_ID','items');?></a></span>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="stat st-comments" >
-                        Total Comments
-                        <span >3500</span>
+                        <i class="fas fa-comment icon"></i>
+                        <div class="info">
+                            Total Comments
+                            <span >3500</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -71,10 +85,29 @@ if(isset($_SESSION['UserName'])){
                 </div>
                 <div class="col-sm-6">
                     <div class="panel-head text-center" >
-                        <i class="fas fa-tags"></i> Latest Items
+                        <i class="fas fa-tags"></i> Latest <?php echo $LatestItemsLimit;?> Items
                     </div>
                     <div class="panel-body" >
-                        Bla Bla Bla
+                        <?php
+                        echo '<ul class="list-unstyled">';
+                        while ($row = mysqli_fetch_assoc($LatestItems)){
+                            ?>
+                            <li>
+                                <?php echo $row['Item_Name'] ;?>
+
+                                <a href="items.php?do=Edit&ItemID=<?php echo $row['Item_ID'];?>" class="btn btn-warning fa-pull-right">Update <i class="fas fa-user-edit"></i></a>
+                                <?php
+                                if ($row['Approve'] == 0){
+                                    echo "<a href='items.php?do=Approve&ItemID=" . $row['Item_ID'] . "' class='btn btn-info fa-pull-right'>Activate<i class='fas fa-hand-pointer'></i></a>";
+                                }
+                                ?>
+
+                            </li>
+
+                            <?php
+                        }
+                        echo '</ul>';
+                        ?>
                     </div>
                 </div>
             </div>

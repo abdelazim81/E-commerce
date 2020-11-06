@@ -56,9 +56,21 @@ h1{
 .home-stat .stat{
     margin-top: 20px;
     color: #FFF;
+    position: relative;
+    overflow: hidden;
 }
  .st-members{
     background-color: #f0932b;
+}
+.home-stat .stat .icon{
+    position: absolute;
+    font-size: 80px;
+    top: 25px;
+    left: 10px;
+}
+.home-stat .stat .info{
+    float: right;
+    padding-right: 5px;
 }
 .st-pending{
     background-color:#eb4d4b;
