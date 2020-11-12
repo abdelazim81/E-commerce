@@ -21,7 +21,7 @@
                    <a class="nav-link" href="#"><?php echo lang('statistics');?></a>
                </li>
                <li class="nav-item">
-                   <a class="nav-link" href="#"><?php echo lang('comments');?></a>
+                   <a class="nav-link" href="comments.php"><?php echo lang('comments');?></a>
                </li>
                <li class="nav-item">
                    <a class="nav-link" href="#"><?php echo lang('logs');?></a>
