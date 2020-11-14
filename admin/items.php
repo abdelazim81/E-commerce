@@ -293,7 +293,49 @@ if (isset($_SESSION['UserName'])){
                     <button type="submit" name="UpdateItem" class="btn btn-primary">Update Item <i class="fas fa-folder-plus"></i> </button>
                 </form>
             </div>
+            <hr>
+
             <?php
+            // display comments related to an item
+            $CommentOfItem = "SELECT comments.*, users.UserName FROM comments
+                              INNER JOIN users ON users.UserID=comments.user_id 
+                              WHERE item_id=$itemID";
+            $result = mysqli_query($connection, $CommentOfItem);
+            if (! empty($result)){
+                ?>
+                <div class="container">
+                    <h1 class="text-center">Manage (<?php echo $row['Item_Name']; ?> ) Comments</h1>
+                    <table class="table members-table table-responsive table-hover text-center">
+                        <tr>
+                            <th>#ID</th>
+                            <th>Comment</th>
+                            <th>User</th>
+                            <th>Date</th>
+                            <th>Control</th>
+                        </tr>
+                        <?php while($rows = mysqli_fetch_assoc($result)){ ?>
+                            <tr>
+                                <td><?php echo $rows['comment_id'];?></td>
+                                <td><?php echo $rows['comment'];?></td>
+                                <td><?php echo $rows['UserName'];?></td>
+                                <td><?php echo $rows['comment_date'];?></td>
+                                <td>
+                                    <div class="btn-group link-group">
+                                        <a href="comments.php?do=Edit&ComID=<?php echo $rows['comment_id'];?>" class="btn btn-warning">Update <i class="fas fa-user-edit"></i></a>
+                                        <a href="comments.php?do=Delete&ComID=<?php echo $rows['comment_id'];?>" class="btn btn-danger confirm">Delete <i class="fas fa-trash"></i></a>
+                                        <?php
+                                        if ($rows['status'] == 0){
+                                            echo "<a href='comments.php?do=Approve&ComID=" . $rows['comment_id'] . "' class='btn btn-info'> Approve  <i class='fas fa-hand-pointer'></i></a>";
+                                        }
+                                        ?>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php }?>
+                    </table>
+                </div>
+            <?php
+            }
 
         }else{
             errorDisplay(array("cannot update this item"));

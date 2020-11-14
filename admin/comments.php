@@ -33,7 +33,7 @@ if (isset($_SESSION['UserName'])) {
                             <td><?php echo $rows['comment_id'];?></td>
                             <td><?php echo $rows['comment'];?></td>
                             <td><?php echo $rows['Item_Name'];?></td>
-                            <td><?php echo $rows['Item_Name'];?></td>
+                            <td><?php echo $rows['UserName'];?></td>
                             <td><?php echo $rows['comment_date'];?></td>
                             <td>
                                 <div class="btn-group link-group">

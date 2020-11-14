@@ -45,7 +45,7 @@ if(isset($_SESSION['UserName'])){
                         <i class="fas fa-comment icon"></i>
                         <div class="info">
                             Total Comments
-                            <span >3500</span>
+                            <span ><a href="comments.php?do=manage"><?php echo getItemsCount('comment_id','comments');?></a></span>
                         </div>
                     </div>
                 </div>
