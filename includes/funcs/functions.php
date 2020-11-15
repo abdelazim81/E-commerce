@@ -42,18 +42,6 @@ function getItemsCount($atrr,$table){
     $row = $result->fetch_row();
     return $row[0];
 }
-// function to get number of pending users
-function getPendingUsersCount($atrr,$table,$condition){
-    $connection = @mysqli_connect('localhost', 'root', '', 'shop');
-    if(!$connection){
-        echo 'you are not connected';
-        exit();
-    }
-    $query = "SELECT COUNT($atrr) FROM $table WHERE RegStatus = '$condition'";
-    $result = mysqli_query($connection,$query);
-    $row = $result->fetch_row();
-    return $row[0];
-}
 
 // function to get latest
 function getLatest($atrr,$table,$order,$limit=4){
@@ -68,6 +56,16 @@ function getLatest($atrr,$table,$order,$limit=4){
 }
 
 
-
+// function to get categories
+function getCategories () {
+    $selectCatsQuery = "SELECT * FROM categories";
+    global $connection;
+    $result = mysqli_query($connection,$selectCatsQuery);
+    if (! $result){
+        errorDisplay(array("Can\'t Get Categories"));
+        exit();
+    }
+    return $result;
+}
 
 ?>
