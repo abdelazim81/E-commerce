@@ -68,4 +68,16 @@ function getCategories () {
     return $result;
 }
 
+
+// function to get categories
+function getItems ($ConditionValue) {
+    $selectItemsQuery = "SELECT * FROM `items` WHERE Cat_ID='$ConditionValue' ORDER BY Item_ID DESC";
+    global $connection;
+    $result = mysqli_query($connection,$selectItemsQuery);
+    if (! $result){
+        errorDisplay(array("Can\'t Get Items"));
+        exit();
+    }
+    return $result;
+}
 ?>
