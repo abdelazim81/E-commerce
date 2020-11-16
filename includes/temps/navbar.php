@@ -1,5 +1,7 @@
-<div class="upper-bar">
-    Upper Bar For Login And SignUp
+<div class="container">
+    <div class="upper-bar">
+        Upper Bar For Login And SignUp
+    </div>
 </div>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
    <div class="container">

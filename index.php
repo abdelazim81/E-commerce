@@ -1,6 +1,6 @@
 <?php
 session_start();
-$pageTitle = 'Login';
+$pageTitle = 'Home';
 include 'init.php';
 
 
