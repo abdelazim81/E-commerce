@@ -1,7 +1,8 @@
-<?php include 'init.php';
-if (isset($_GET['catID']) && isset($_GET['catName'])){
-    $pageTitle = "Categories";
-    ?>
+<?php
+    $pageTitle = isset($_GET['catName']) ? $_GET['catName'] : "Categories";
+    include 'init.php';
+    if (isset($_GET['catID']) && isset($_GET['catName'])){
+?>
 
 <div class="container">
     <h1 class="text-center"><?php echo str_replace('-',' ',$_GET['catName']);?></h1>

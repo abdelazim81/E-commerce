@@ -1,7 +1,7 @@
 <div class="container">
-    <div class="upper-bar">
-        Upper Bar For Login And SignUp
-    </div>
+        <div class="upper-bar">
+            <span class="right"><a class="right" href="login.php">Login | SingUp</a></span>
+        </div>
 </div>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
    <div class="container">

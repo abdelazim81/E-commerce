@@ -37,6 +37,9 @@ h1{
 .success-msg{
     margin-top: 50px;
 }
+.right{
+   margin-left: 490px;
+}
 
 .item-box{
     position: relative;
@@ -49,4 +52,21 @@ h1{
     left: 0px;
     top: 10px;
 }
+/* start login page*/
+.login-page h3{
+    color: #B3B3B3;
+    margin-top: 25px;
+    margin-bottom: 30px;
+}
+.login-page .selected{
+    color: #1b1e21;
+}
+.login-page form{
+    max-width: 350px;
+    margin: auto;
+}
+.login-page form input{
+    margin-bottom: 7px;
+}
+/* end login page*/
 
