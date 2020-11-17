@@ -1,8 +1,27 @@
+<?php
+    if (isset($_SESSION['userName'])){
+        // if there is session
+?>
+<div class="container">
+    <div class="upper-bar">
+        <span class="right"><a class="right" href="logout.php">LogOut</a></span>
+    </div>
+</div>
+<?php
+
+    }else{
+        // if there is no session
+
+?>
 <div class="container">
         <div class="upper-bar">
             <span class="right"><a class="right" href="login.php">Login | SingUp</a></span>
         </div>
 </div>
+<?php
+    }
+
+?>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
    <div class="container">
        <a class="navbar-brand" href="index.php"><?php echo lang('home');?></a>
