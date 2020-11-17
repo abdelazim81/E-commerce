@@ -16,10 +16,11 @@ $("body").on('click','.confirm', function () {
 
     // swap between login form and sign up form
 
-$(".login-page h3 span").click( function () {
-    $('this').addClass('selected').siblings().removeClass("selected");
+
+$('.login-page span').click( function () {
+    $(this).addClass('selected').siblings('span').removeClass('selected');
     $('.login-page form').hide();
-    $('.' + $('this').data('class')).fadeIn(150);
-});
+    $('.' + $(this).attr('id')).fadeIn(200);
+});   
 
 });// end of on ready

@@ -5,9 +5,9 @@ include 'init.php';
 <div class="container login-page">
     <!--header of login page-->
     <h3 class="text-center">
-        <span data-class="login" class="selected">LogIn</span>
+        <span id="login" class="selected">LogIn</span>
         <span> | </span>
-        <span data-class="signup">SignUp</span>
+        <span  id="signup">SignUp</span>
     </h3>
     <!--end of header of login page-->
 

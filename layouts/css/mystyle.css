@@ -70,3 +70,11 @@ h1{
 }
 /* end login page*/
 
+
+
+/* start signup page */
+.login-page .signup{
+    display: none;
+}
+/* end signup page */
+
