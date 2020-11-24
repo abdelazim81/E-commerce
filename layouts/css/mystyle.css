@@ -68,6 +68,13 @@ h1{
 .login-page form input{
     margin-bottom: 7px;
 }
+#login{
+    cursor: pointer;
+}
+.right.btn{
+    margin-bottom: 2px;
+    margin-top: 2px;
+}
 /* end login page*/
 
 
@@ -75,6 +82,9 @@ h1{
 /* start signup page */
 .login-page .signup{
     display: none;
+}
+#signup{
+    cursor: pointer;
 }
 /* end signup page */
 

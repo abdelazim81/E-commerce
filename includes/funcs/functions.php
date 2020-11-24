@@ -80,4 +80,15 @@ function getItems ($ConditionValue) {
     }
     return $result;
 }
+
+// function to get unactivated users
+function getUnactivatedUserCount ($user) {
+    global $connection;
+    $query = "SELECT UserName, RegStatus FROM users WHERE UserName='$user' And RegStatus=0 ";
+    $result = mysqli_query($connection, $query);
+    $row = $result->num_rows;
+    echo  $row;
+}
+
+
 ?>
