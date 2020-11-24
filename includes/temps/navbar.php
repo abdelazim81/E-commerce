@@ -5,12 +5,12 @@
         $unactivatedUsers =  getUnactivatedUserCount($_SESSION['userName']);
         if ($unactivatedUsers == 1){
             // when user is not activated
-           echo "you need to be activated";
         }
 ?>
 <div class="container">
     <div class="upper-bar">
-        <span class="right"><a class="right btn btn-danger" href="logout.php">LogOut</a></span>
+        <span><a class=" logout btn btn-danger" href="logout.php">LogOut</a></span>
+        <span><a class="profile btn btn-info" href="profile.php">Profile</a></span>
     </div>
 </div>
 <?php
@@ -19,7 +19,7 @@
 ?>
 <div class="container">
         <div class="upper-bar">
-            <span class="right"><a class="right btn btn-success" href="login.php">Login | SingUp</a></span>
+            <span><a class="login-signup btn btn-success" href="login.php">Login | SingUp</a></span>
         </div>
 </div>
 <?php

@@ -37,9 +37,6 @@ h1{
 .success-msg{
     margin-top: 50px;
 }
-.right{
-   margin-left: 490px;
-}
 
 .item-box{
     position: relative;
@@ -53,6 +50,17 @@ h1{
     top: 10px;
 }
 /* start login page*/
+.upper-bar{
+    position: relative;
+}
+.upper-bar a.logout,
+.upper-bar a.profile,
+.upper-bar a.login-signup{
+    position: absolute;
+    right: 10px;
+    top: 2px;
+}
+
 .login-page h3{
     color: #B3B3B3;
     margin-top: 25px;
@@ -87,4 +95,14 @@ h1{
     cursor: pointer;
 }
 /* end signup page */
+
+
+/* start profile page */
+.block:first-child{
+    margin-top: 20px;
+}
+.block{
+    margin-bottom: 20px;
+}
+/* end profile page */
 
