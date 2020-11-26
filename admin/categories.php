@@ -278,5 +278,5 @@ if (isset($_SESSION['UserName'])){
 
     include $temps . 'footer.php';
 }else{
-    header('index.php');
+    header('Location: index.php');
 }

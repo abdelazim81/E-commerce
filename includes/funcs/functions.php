@@ -69,9 +69,9 @@ function getCategories () {
 }
 
 
-// function to get categories
-function getItems ($ConditionValue) {
-    $selectItemsQuery = "SELECT * FROM `items` WHERE Cat_ID='$ConditionValue' ORDER BY Item_ID DESC";
+// function to get Items
+function getItems ($condition, $ConditionValue) {
+    $selectItemsQuery = "SELECT * FROM `items` WHERE $condition ='$ConditionValue' ORDER BY Item_ID DESC";
     global $connection;
     $result = mysqli_query($connection,$selectItemsQuery);
     if (! $result){

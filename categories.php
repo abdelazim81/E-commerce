@@ -8,7 +8,7 @@
     <h1 class="text-center"><?php echo str_replace('-',' ',$_GET['catName']);?></h1>
     <div class="row">
     <?php
-    $items = getItems($_GET['catID']);
+    $items = getItems('Cat_ID',$_GET['catID']);
     while ($item = mysqli_fetch_assoc($items)){
         ?>
         <div class="col-sm-6 col-md-4">

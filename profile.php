@@ -39,7 +39,27 @@ if (isset($_SESSION['userName'])){
                     My Ads <i class="fas fa-ad"></i>
                 </div>
                 <div class="card-body">
-
+                    <div class="row">
+                        <?php
+                        $items = getItems('Member_ID',$user['UserID']);
+                        $itemsCount = $items->num_rows;
+                        if ($itemsCount < 1){
+                            echo 'There Is No Ads To Display';
+                        }else{
+                            while ($item = mysqli_fetch_assoc($items)){
+                                ?>
+                                <div class="col-sm-6 col-md-4">
+                                    <div class="thumbnail item-box">
+                                        <span class="price-tag"><?php echo $item['Item_Price'];?></span>
+                                        <img width="200" height="200" src="layouts/images/avatar01.jpg" alt="<?php echo $item['Item_Name'];?>">
+                                        <div class="figure-caption">
+                                            <h3><?php echo $item['Item_Name'];?></h3>
+                                            <p><?php echo $item['Item_Desc'];?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php } }?>
+                    </div>
                 </div>
             </div>
         </div>
@@ -55,7 +75,20 @@ if (isset($_SESSION['userName'])){
                     Latest Comments <i class="fas fa-comments"></i>
                 </div>
                 <div class="card-body">
+                    <?php
+                        $user_id = $user['UserID'];
+                        $getComments = "SELECT comment FROM comments WHERE user_id='$user_id'";
+                        $commentsResult = mysqli_query($connection, $getComments);
+                        $count = $commentsResult->num_rows;
+                        if ( $count <1) {
+                            echo 'There Is No Comments To Show';
+                        }else{
+                            while($comment = mysqli_fetch_assoc($commentsResult)){
 
+                                echo "<p>" . $comment['comment'] . "</p>";
+                            }
+                        }
+                    ?>
                 </div>
             </div>
         </div>
