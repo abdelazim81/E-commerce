@@ -22,9 +22,33 @@ if (isset($_POST['login'])){
     }
 
 }elseif (isset($_POST['signup'])){
-    $user_name     = $_POST['username'];
-    $user_email    = $_POST['email'];
     $user_password = $_POST['password'];
+    $formErrors = array();
+    // user name validation
+    if (isset($_POST['username'])){
+        $user_name = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
+        if (strlen($user_name)<3){
+            $formErrors[] = "Your name must be 3 character at least";
+        }
+    }else{
+        $formErrors[] = "You must enter your user name";
+    }
+
+    // user email validation
+    if (isset($_POST['email']) && !empty($_POST['email'])){
+        $user_name = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+    }else{
+        $formErrors[] = "You must enter valid email";
+    }
+
+
+    // user password validation
+    if (empty($_POST['password'])){
+        $formErrors[] = "You must enter a complex password";
+    }
+    if (strlen($_POST['password']) < 8){
+        $formErrors[] = "You must enter a complex password consists of 8 character, special character, or numbers at least ";
+    }
 }
 ?>
 <div class="container login-page">
@@ -46,18 +70,24 @@ if (isset($_POST['login'])){
 
     <!--sign up form-->
     <form class="signup" action="login.php" method="post">
-        <input class="form-control" type="text" name="username" placeholder="User Name" autocomplete="off" required>
-        <input class="form-control" type="email" name="email" placeholder="Enter Valid Email" autocomplete required>
-        <input class="form-control" type="password" name="password" placeholder="Enter Complex Password" autocomplete="new-password" required>
+        <input class="form-control" type="text" name="username" placeholder="User Name" autocomplete="off" >
+        <input class="form-control" type="email" name="email" placeholder="Enter Valid Email" autocomplete >
+        <input class="form-control" type="password" name="password" placeholder="Enter Complex Password" autocomplete="new-password" >
         <input type="submit" class="btn btn-info btn-block" name="signup" value="SignUp">
     </form>
     <!--end sign up form-->
 
+    <div class="the-errors">
+        <?php
+            if (isset($formErrors)){
+                if (empty($formErrors)){
+                    successDisplay("You signed up successfully");
+                }else{
+                    errorDisplay($formErrors);
+                }
+            }
 
-    <div class="the-errors text-center">
-        <p><?php echo $user_name; ?></p>
-        <p><?php echo $user_email; ?></p>
-        <p><?php echo $user_password; ?></p>
+        ?>
     </div>
 </div>
 <?php
