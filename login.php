@@ -1,7 +1,6 @@
 <?php
 $pageTitle = 'Login';
 include 'init.php';
-session_start();
         // if there is a session go to home page
 if (isset($_SESSION['userName'])){
     header('location: index.php');

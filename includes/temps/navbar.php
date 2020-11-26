@@ -1,34 +1,3 @@
-        <!--login logic-->
-<?php
-    if (isset($_SESSION['userName'])){
-        // if there is session
-        $unactivatedUsers =  getUnactivatedUserCount($_SESSION['userName']);
-        if ($unactivatedUsers == 1){
-            // when user is not activated
-        }
-?>
-<div class="container">
-    <div class="upper-bar">
-        <span><a class=" logout btn btn-danger" href="logout.php">LogOut</a></span>
-        <span><a class="profile btn btn-info" href="profile.php">Profile</a></span>
-    </div>
-</div>
-<?php
-    }else{
-        // if there is no session
-?>
-<div class="container">
-        <div class="upper-bar">
-            <span><a class="login-signup btn btn-success" href="login.php">Login | SingUp</a></span>
-        </div>
-</div>
-<?php
-    }
-?>
-
-
-                <!--End login Logic-->
-
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
    <div class="container">
        <a class="navbar-brand" href="index.php"><?php echo lang('home');?></a>
@@ -47,6 +16,27 @@
                    <a class="nav-link" href="categories.php?catID=<?php echo $category['ID'];?>&catName=<?php  echo str_replace(' ','-',$category['Name']);?>"><?php echo $category['Name'];?></a>
                </li>
                <?php } ?>
+           </ul>
+           <ul class="navbar-nav login-logic-area">
+               <?php if (isset($_SESSION['userName'])){?>
+                   <li class="nav-item">
+                       <a class="btn btn-info" href="profile.php">Profile</a>
+                   </li>
+                   <li class="nav-item">
+                       <a class="btn btn-danger" href="logout.php">Logout</a>
+                   </li>
+              <?php }else{ ?>
+               <li class="nav-item">
+                   <a class="btn btn-success" href="login.php">Login/Signup</a>
+               </li>
+               <?php } ?>
+
+
+
+
+
+
+
            </ul>
 
        </div>

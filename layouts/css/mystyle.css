@@ -50,15 +50,8 @@ h1{
     top: 10px;
 }
 /* start login page*/
-.upper-bar{
-    position: relative;
-}
-.upper-bar a.logout,
-.upper-bar a.profile,
-.upper-bar a.login-signup{
-    position: absolute;
-    right: 10px;
-    top: 2px;
+.login-logic-area{
+    margin-left: 800px;
 }
 
 .login-page h3{
@@ -79,10 +72,7 @@ h1{
 #login{
     cursor: pointer;
 }
-.right.btn{
-    margin-bottom: 2px;
-    margin-top: 2px;
-}
+
 /* end login page*/
 
 
@@ -104,5 +94,6 @@ h1{
 .block{
     margin-bottom: 20px;
 }
+
 /* end profile page */
 

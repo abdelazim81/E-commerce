@@ -1,7 +1,12 @@
 <?php
 $pageTitle = 'Profile';
 include 'init.php';
-session_start();
+if (isset($_SESSION['userName'])){
+    // if there is session so the user logged in, display his profile
+    $userName = $_SESSION['userName'];
+    $selectUserStmt = "SELECT * FROM users WHERE UserName = '$userName'";
+    $result = mysqli_query($connection, $selectUserStmt);
+    $user = $result->fetch_assoc();
 ?>
 <h1 class="text-center ">Welcome <?php echo $_SESSION['userName'];?></h1>
 
@@ -14,7 +19,11 @@ session_start();
                 Basic Information <i class="fas fa-info"></i>
             </div>
             <div class="card-body">
-
+                <span>Name : </span><span> <?php echo $user['UserName'];?> </span>
+                <hr>
+                <span>Email : </span><span> <?php echo $user['Email'];?> </span>
+                <hr>
+                <span>Full Name : </span><span> <?php echo $user['FullName'];?> </span>
             </div>
         </div>
     </div>
@@ -53,4 +62,9 @@ session_start();
     </div>
     <!--END INFORMATION CARD-->
 <?php
+} else{
+    // if there is no session so this user need to login
+    header("Location: login.php");
+    exit();
+}
 include 'includes/temps/footer.php';
