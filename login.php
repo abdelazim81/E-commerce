@@ -5,6 +5,7 @@ include 'init.php';
 if (isset($_SESSION['userName'])){
     header('location: index.php');
 }
+
 if (isset($_POST['login'])){
     $userName = $_POST['username'];
     $password = $_POST['password'];
@@ -20,6 +21,10 @@ if (isset($_POST['login'])){
         header('location: index.php');
     }
 
+}elseif (isset($_POST['signup'])){
+    $user_name     = $_POST['username'];
+    $user_email    = $_POST['email'];
+    $user_password = $_POST['password'];
 }
 ?>
 <div class="container login-page">
@@ -40,13 +45,20 @@ if (isset($_POST['login'])){
     <!--End login form-->
 
     <!--sign up form-->
-    <form class="signup">
+    <form class="signup" action="login.php" method="post">
         <input class="form-control" type="text" name="username" placeholder="User Name" autocomplete="off" required>
         <input class="form-control" type="email" name="email" placeholder="Enter Valid Email" autocomplete required>
         <input class="form-control" type="password" name="password" placeholder="Enter Complex Password" autocomplete="new-password" required>
         <input type="submit" class="btn btn-info btn-block" name="signup" value="SignUp">
     </form>
     <!--end sign up form-->
+
+
+    <div class="the-errors text-center">
+        <p><?php echo $user_name; ?></p>
+        <p><?php echo $user_email; ?></p>
+        <p><?php echo $user_password; ?></p>
+    </div>
 </div>
 <?php
     include $temps . 'footer.php';
