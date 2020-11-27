@@ -22,11 +22,13 @@ if (isset($_POST['login'])){
     }
 
 }elseif (isset($_POST['signup'])){
+    $user_name     = $_POST['username'];
+    $user_email    = $_POST['email'];
     $user_password = $_POST['password'];
     $formErrors = array();
     // user name validation
     if (isset($_POST['username'])){
-        $user_name = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
+        $user_name = filter_var($user_name, FILTER_SANITIZE_STRING);
         if (strlen($user_name)<3){
             $formErrors[] = "Your name must be 3 character at least";
         }
@@ -35,19 +37,41 @@ if (isset($_POST['login'])){
     }
 
     // user email validation
-    if (isset($_POST['email']) && !empty($_POST['email'])){
-        $user_name = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+    if (isset($user_email) && !empty($user_email)){
+        $user_email = filter_var($user_email, FILTER_SANITIZE_EMAIL);
+        if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) != true){
+            $formErrors[] = "You must enter valid email";
+        }
     }else{
         $formErrors[] = "You must enter valid email";
     }
 
 
     // user password validation
-    if (empty($_POST['password'])){
+    if (empty($user_password)){
         $formErrors[] = "You must enter a complex password";
     }
-    if (strlen($_POST['password']) < 8){
+    if (strlen($user_password) < 8){
         $formErrors[] = "You must enter a complex password consists of 8 character, special character, or numbers at least ";
+    }
+
+
+    // if there is no errors
+    if (empty($formErrors)){
+        $user_name_count_stmt = "SELECT UserName FROM users WHERE UserName='$user_name'";
+        $users_count_result   = mysqli_query($connection, $user_name_count_stmt);
+        $user_name_count      = $users_count_result->num_rows;
+        if ($user_name_count > 0) {
+            $formErrors[] = "This User Name Is Exist, Try Another One";
+        }else{
+        // adding user
+            $add_user_stmt = "INSERT INTO users(UserName,Password,Email,RegStatus,Date) 
+                                  VALUES('$user_name','$user_password','$user_email', 0 ,now() )";
+            $add_user_flag = mysqli_query($connection,$add_user_stmt);
+            if (!$add_user_flag){
+                $formErrors[] = "This User Can\'t Be Added";
+            }
+        }
     }
 }
 ?>
@@ -70,9 +94,9 @@ if (isset($_POST['login'])){
 
     <!--sign up form-->
     <form class="signup" action="login.php" method="post">
-        <input class="form-control" type="text" name="username" placeholder="User Name" autocomplete="off" >
-        <input class="form-control" type="email" name="email" placeholder="Enter Valid Email" autocomplete >
-        <input class="form-control" type="password" name="password" placeholder="Enter Complex Password" autocomplete="new-password" >
+        <input class="form-control" type="text" name="username" placeholder="User Name" autocomplete="off" pattern=".{3,}" title="Your User Name Must Be At Least 3 Chars" required>
+        <input class="form-control" type="email" name="email" placeholder="Enter Valid Email" autocomplete required>
+        <input class="form-control" type="password" name="password" placeholder="Enter Complex Password" autocomplete="new-password" minlength="8" required>
         <input type="submit" class="btn btn-info btn-block" name="signup" value="SignUp">
     </form>
     <!--end sign up form-->
