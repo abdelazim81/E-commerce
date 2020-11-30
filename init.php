@@ -10,7 +10,6 @@ include 'admin/connect.php';
 include $funcs . 'functions.php';
 include $temps .'header.php';
 include $langs . 'english.php';
-//include $temps . 'loginLogic.php';
 include $temps . 'navbar.php';
 
 

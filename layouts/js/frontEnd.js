@@ -15,12 +15,27 @@ $("body").on('click','.confirm', function () {
 
 
     // swap between login form and sign up form
-
-
 $('.login-page span').click( function () {
     $(this).addClass('selected').siblings('span').removeClass('selected');
     $('.login-page form').hide();
     $('.' + $(this).attr('id')).fadeIn(200);
-});   
+});
+
+
+// live item name
+    $(".live-name").onkeyup( function () {
+        $(".preview-live .figure-caption h3").text($(this).val());
+    });
+
+// live item description
+    $(".live-desc").onkeyup( function () {
+        $(".preview-live .figure-caption p").text($(this).val());
+    });
+
+
+ // live item description
+    $(".live-price").onkeyup( function () {
+        $(".preview-live .price-tag").text("$" + $(this).val());
+    });
 
 });// end of on ready

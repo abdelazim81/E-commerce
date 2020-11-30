@@ -36,6 +36,10 @@ if (isset($_SESSION['userName'])){
                         <i class="fas fa-calendar-check fa-fw"></i>
                         <span>Register Date </span>: <?php echo $user['Date'];?>
                     </li>
+                    <li>
+                        <i class="fas fa-tags fa-fw"></i>
+                        <span>Fav Categories </span>:
+                    </li>
                 </ul>
             </div>
         </div>
@@ -57,7 +61,7 @@ if (isset($_SESSION['userName'])){
                         $items = getItems('Member_ID',$user['UserID']);
                         $itemsCount = $items->num_rows;
                         if ($itemsCount < 1){
-                            echo 'There Is No Ads To Display';
+                            echo "There Is No Ads To Display Create  " . " <a class='btn btn-primary'  href='newAd.php'> New AD</a>";
                         }else{
                             while ($item = mysqli_fetch_assoc($items)){
                                 ?>
