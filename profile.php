@@ -15,15 +15,28 @@ if (isset($_SESSION['userName'])){
 <div class="inforamtion block">
     <div class="container">
         <div class="card">
-            <div class="card-header text-center">
+            <div class="card-header text-center" style="background-color:#61b15a">
                 Basic Information <i class="fas fa-info"></i>
             </div>
             <div class="card-body">
-                <span>Name : </span><span> <?php echo $user['UserName'];?> </span>
-                <hr>
-                <span>Email : </span><span> <?php echo $user['Email'];?> </span>
-                <hr>
-                <span>Full Name : </span><span> <?php echo $user['FullName'];?> </span>
+                <ul class="list-unstyled">
+                    <li>
+                        <i class="fas fa-unlock-alt fa-fw"></i>
+                        <span>Name </span>: <?php echo $user['UserName'];?>
+                    </li>
+                    <li>
+                        <i class="fas fa-envelope-open   fa-fw"></i>
+                        <span>Email </span>: <?php echo $user['Email'];?>
+                    </li>
+                    <li>
+                        <i class="fas fa-user-alt fa-fw"></i>
+                        <span>Full Name </span>: <?php echo $user['FullName'];?>
+                    </li>
+                    <li>
+                        <i class="fas fa-calendar-check fa-fw"></i>
+                        <span>Register Date </span>: <?php echo $user['Date'];?>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
@@ -35,7 +48,7 @@ if (isset($_SESSION['userName'])){
     <div class="ads block">
         <div class="container">
             <div class="card">
-                <div class="card-header text-center">
+                <div class="card-header text-center" style="background-color:#61b15a">
                     My Ads <i class="fas fa-ad"></i>
                 </div>
                 <div class="card-body">
@@ -71,7 +84,7 @@ if (isset($_SESSION['userName'])){
     <div class="comments block">
         <div class="container">
             <div class="card">
-                <div class="card-header text-center">
+                <div class="card-header text-center" style="background-color:#61b15a">
                     Latest Comments <i class="fas fa-comments"></i>
                 </div>
                 <div class="card-body">

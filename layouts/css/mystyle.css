@@ -33,6 +33,7 @@ h1{
     padding: 10px;
     color: #888;
     margin-top: 10px;
+    letter-spacing: 10px;
 }
 .success-msg{
     margin-top: 50px;
@@ -95,5 +96,24 @@ h1{
     margin-bottom: 20px;
 }
 
+.inforamtion ul{
+    margin: 0;
+    padding: 0;
+}
+.information ul li{
+    padding: 25px;
+    margin-bottom: 15px;
+}
+.inforamtion ul li span{
+    display: inline-block;
+    width: 142px;
+}
+.inforamtion ul li:nth-child(even){
+    background-color: #f6eec9;
+}
+.card-header{
+    letter-spacing: 15px;
+    font-family: cursive;
+}
 /* end profile page */
 
