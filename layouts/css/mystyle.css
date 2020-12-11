@@ -115,5 +115,11 @@ h1{
     letter-spacing: 15px;
     font-family: cursive;
 }
+.thumbnail .date{
+    text-align: right;
+    letter-spacing: 3px;
+    color: #aaa;
+    font-size: 13px;
+}
 /* end profile page */
 

@@ -10,14 +10,15 @@ if (isset($_POST['login'])){
     $userName = $_POST['username'];
     $password = $_POST['password'];
     global $connection;
-    $query = "SELECT COUNT(UserID) FROM users 
+    $query = "SELECT * FROM users 
               WHERE UserName='$userName' 
               AND Password='$password'";
     $result = mysqli_query($connection,$query);
-    $row = $result->fetch_row();
-    $count =  $row[0];
+    $row = $result->fetch_assoc();
+    $count =  $result->num_rows;
     if ($count == 1){
-        $_SESSION['userName'] = $userName;
+        $_SESSION['userName'] = $row['UserName'];
+        $_SESSION['uid'] = $row['UserID'];
         header('location: index.php');
     }
 

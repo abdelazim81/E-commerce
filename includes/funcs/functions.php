@@ -14,13 +14,9 @@ function getTitle() {
 
 function errorDisplay ($errors){
     echo "<div class='container'>";
-    echo "<div class='row alert alert-danger'>";
-    echo "<ul>";
     foreach ($errors as $error){
-        echo "<li>" . $error . "</li>";
+        echo "<div class='alert alert-danger'>" . $error . "</div>";
     }
-    echo "</ul>";
-    echo "</div>";
     echo "</div>";
 }
 
@@ -28,9 +24,7 @@ function errorDisplay ($errors){
 // function for display success event
 function successDisplay ($msg){
     echo "<div class='container'>";
-    echo "<div class='row alert alert-success success-msg'>";
-    echo '<h3>' . $msg . '</h3>';
-    echo "</div>";
+    echo '<h3 class="row alert alert-success success-msg">' . $msg . '</h3>';
     echo "</div>";
 }
 

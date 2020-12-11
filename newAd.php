@@ -23,6 +23,7 @@ if (isset($_SESSION['userName'])){
                         <div class="col-md-8">
                             <form  method="post" class="form" action="newAd.php">
                                 <h3 class="text-center">Add New Item</h3>
+                                <!--NAME OF ITEM-->
                                 <div class="form-group ">
                                     <input type="text"
                                            class="form-control live-name"
@@ -30,6 +31,7 @@ if (isset($_SESSION['userName'])){
                                            placeholder="Enter Item Name!" required pattern=".{4,}"
                                            title="item name should be at least 4 characters" >
                                 </div>
+                                <!--DESCRIPTION OF ITEM-->
                                 <div class="form-group ">
                                     <input type="text"
                                            class="form-control live-desc"
@@ -38,6 +40,7 @@ if (isset($_SESSION['userName'])){
                                            pattern=".{15,}"
                                            title="The item description should be at least 15 characters">
                                 </div>
+                                <!--PRICE OF ITEM-->
                                 <div class="form-group">
                                     <input type="text"
                                            name="price"
@@ -45,6 +48,7 @@ if (isset($_SESSION['userName'])){
                                            placeholder="Enter Item Price!"
                                            minlength="1" required>
                                 </div>
+                                <!--COUNTRY OF ITEM-->
                                 <div class="form-group ">
                                     <input type="text"
                                            class="form-control live-country"
@@ -53,7 +57,7 @@ if (isset($_SESSION['userName'])){
                                            title="The item country should be at least 4 characters"
                                            required>
                                 </div>
-                                <!-- SELECT BOX FOR STATUS-->
+                                <!-- SELECT BOX FOR STATUS OF ITEM-->
                                 <div class="form-group ">
                                     <label for="status"> Status</label>
                                     <select name="status" id="status" required>
@@ -65,7 +69,7 @@ if (isset($_SESSION['userName'])){
                                     </select>
                                 </div>
 
-                                <!--SELECT BOX FOR CATEGORIES-->
+                                <!--SELECT BOX FOR CATEGORIES OF ITEM-->
                                 <div class="form-group ">
                                     <label for="categories">Categories</label>
                                     <select name="categories" id="categories" required>
@@ -87,7 +91,10 @@ if (isset($_SESSION['userName'])){
                                 <button class="btn btn-warning" type="reset">Reset Data <i class="fas fa-redo"></i></button>
                                 <button type="submit" name="addNewItem" class="btn btn-primary">Add Item <i class="fas fa-folder-plus"></i> </button>
                             </form>
+                            <!--END OF ITEM FORM INFORMATION-->
                         </div>
+
+                        <!--START OF ITEM SHAPE-->
                         <div class="col-md-4">
                             <div class="thumbnail item-box preview-live">
                                 <span class="price-tag">$0</span>
@@ -113,6 +120,7 @@ if (isset($_SESSION['userName'])){
         $item_country   = filter_var($_POST['country'], FILTER_SANITIZE_STRING);
         $item_status    = filter_var($_POST['status'], FILTER_SANITIZE_NUMBER_INT);
         $item_category  = filter_var($_POST['categories'], FILTER_SANITIZE_NUMBER_INT);
+        $userID = $_SESSION['uid'];
         $formErrors = array();
          // name validation
         if (strlen($item_name) < 4){
@@ -144,7 +152,16 @@ if (isset($_SESSION['userName'])){
             errorDisplay($formErrors);
         }else{
             // store the item information
-            echo "valid data";
+            $insertItemQuery = "INSERT INTO items (Item_Name, Item_Desc, Item_Price, 
+                                Item_Date, Item_Country, Item_Status, Cat_ID, Member_ID) 
+                                VALUES ('$item_name', '$item_desc', '$item_price', now(), 
+                                '$item_country', '$item_status', '$item_category', '$userID')";
+            $insertItemResult = mysqli_query($connection,$insertItemQuery);
+            if (!$insertItemResult){
+                errorDisplay(array("Item Cannot Be Added"));
+            }else{
+                successDisplay("Item Added Successfully");
+            }
         }
     }
 ?>

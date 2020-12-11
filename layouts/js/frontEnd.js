@@ -23,19 +23,21 @@ $('.login-page span').click( function () {
 
 
 // live item name
-    $(".live-name").onkeyup( function () {
+    $(".live-name").keyup(function(){
         $(".preview-live .figure-caption h3").text($(this).val());
     });
 
 // live item description
-    $(".live-desc").onkeyup( function () {
+    $(".live-desc").keyup(function(){
         $(".preview-live .figure-caption p").text($(this).val());
     });
 
 
- // live item description
-    $(".live-price").onkeyup( function () {
-        $(".preview-live .price-tag").text("$" + $(this).val());
+// live item price
+    $(".live-price").keyup(function(){
+        $(".preview-live .price-tag").text('$' + '' + $(this).val());
     });
+
+
 
 });// end of on ready
