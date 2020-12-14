@@ -139,3 +139,13 @@ h1{
 }
 /* END ITEMS INFO PAGE*/
 
+
+/*start commenting area*/
+.commenting-area h3{
+    margin-bottom: 20px;
+}
+.commenting-area .btn{
+    margin-top: 10px;
+}
+/*end commenting area*/
+

@@ -58,7 +58,39 @@ if (isset($_GET['itemID'])){
             </div>
             <!--end item information-->
             <hr class="custom-hr">
+
             <!--start commenting section-->
+            <div class="row commenting-area">
+        <?php if (isset($_SESSION['userName'])){?>
+                <div class="col-md-3"></div>
+                <div class="col-md-9">
+                    <div class="comment">
+                        <h3>Add Comment</h3>
+                        <form action="items.php?itemID=<?php echo $item['Item_ID'];?>">
+                            <textarea name="comment"  cols="25" rows="7" class="form-control">
+
+                            </textarea>
+                            <input type="submit" value="Add Comment" class="btn btn-outline-primary">
+                        </form>
+                    </div>
+                </div>
+            <?php }else{?>
+
+            <!--IF THE USER IS NOT LOGIN -->
+            <div class="col-md-9">
+                <div class="comment">
+                    <h3>Please <a href="login.php">login</a> or <a href="login.php">register</a> to add a comment</h3>
+
+                </div>
+            </div>
+
+<?php } ?>
+
+            </div>
+            <!--end commenting section-->
+
+            <hr class="custom-hr">
+            <!--start displaying comments section-->
             <div class="row">
                 <div class="col-md-3">
                     image
@@ -67,7 +99,7 @@ if (isset($_GET['itemID'])){
                     comment
                 </div>
             </div>
-            <!--end commenting section-->
+            <!--end displaying comments section-->
         </div>
 <?php
     }
