@@ -122,4 +122,20 @@ h1{
     font-size: 13px;
 }
 /* end profile page */
+/* START ITEMS INFO PAGE*/
+.item-info h3,
+.item-info p,
+.item-info ul li{
+    padding: 10px;
+}
+.item-info h3{
+    margin: 0;
+}
+.item-info ul li:nth-child(even){
+    background-color: #e0e0e0;
+}
+.custom-hr{
+    border-top: 2px solid #e0e0e0;
+}
+/* END ITEMS INFO PAGE*/
 
