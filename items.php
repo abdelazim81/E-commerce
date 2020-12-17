@@ -6,14 +6,15 @@ if (isset($_GET['itemID'])){
     $selectItemStmt = "SELECT items.*, users.UserName AS userName, categories.Name AS categoryName FROM items
                         INNER JOIN users ON users.UserID=items.Member_ID
                         INNER JOIN categories ON categories.ID=items.Cat_ID
-                        WHERE Item_ID='$itemID'";
+                        WHERE Item_ID='$itemID' AND Approve=1";
     $selectItemResult = mysqli_query($connection,$selectItemStmt);
     $count = $selectItemResult->num_rows;
     if ($count < 1){
-        errorDisplay(array('No Such ID'));
+        errorDisplay(array('No Such ID Or This Item Waiting Approval'));
     }else{
         /*get date this id is valid*/
         $item = $selectItemResult->fetch_assoc();
+        $item_id = $item['Item_ID'];
         ?>
         <!--DISPLAY ITEM INFORMATION-->
 <h1 class="text-center"><?php echo $item['Item_Name']; ?></h1>
@@ -25,7 +26,7 @@ if (isset($_GET['itemID'])){
                 </div>
                 <div class="col-md-9 item-info">
                     <h3><?php echo $item['Item_Name'];?></h3>
-                    <p class="text-justify"><?php echo $item['Item_Desc'];?></p>
+                    <p class="lead"><?php echo $item['Item_Desc'];?></p>
                     <ul class="list-unstyled">
                         <li>
                             <i class="fas fa-dollar-sign fa-fw"></i>
@@ -66,15 +67,35 @@ if (isset($_GET['itemID'])){
                 <div class="col-md-9">
                     <div class="comment">
                         <h3>Add Comment</h3>
-                        <form action="items.php?itemID=<?php echo $item['Item_ID'];?>">
-                            <textarea name="comment"  cols="25" rows="7" class="form-control">
+                        <form action="items.php?itemID=<?php echo $_GET['itemID'];?>" method="post">
+                            <textarea name="comment"  cols="25" rows="7" class="form-control"></textarea>
 
-                            </textarea>
-                            <input type="submit" value="Add Comment" class="btn btn-outline-primary">
+                            <input name="addComment" type="submit" value="Add Comment" class="btn btn-outline-primary">
                         </form>
                     </div>
                 </div>
-            <?php }else{?>
+            <?php
+
+
+            //insert comment into database
+            if (isset($_POST['addComment'])){
+                $comment = filter_var($_POST['comment'],FILTER_SANITIZE_STRING);
+                $user_id = $_SESSION['uid'];
+                if (! empty($comment)){
+                    $insertCommentStmt = "INSERT INTO comments (comment,status,comment_date,item_id,user_id)
+                                      VALUES ('$comment',0,now(),'$item_id','$user_id')";
+                    $insertCommentResult = mysqli_query($connection, $insertCommentStmt);
+                    if ($insertCommentResult){
+                        successDisplay('Comment Added Successfully');
+                    }else{
+                        errorDisplay(array('Cannot Add Comment'));
+                    }
+                }
+
+            }
+
+
+        }else{?>
 
             <!--IF THE USER IS NOT LOGIN -->
             <div class="col-md-9">
@@ -89,18 +110,48 @@ if (isset($_GET['itemID'])){
             </div>
             <!--end commenting section-->
 
-            <hr class="custom-hr">
+
+
             <!--start displaying comments section-->
-            <div class="row">
-                <div class="col-md-3">
-                    image
-                </div>
-                <div class="col-md-9">
-                    comment
-                </div>
-            </div>
+            <hr class="custom-hr">
+            <?php
+            $getAllComments = "SELECT comments.*, users.UserName FROM comments
+                               INNER JOIN users
+                               ON users.UserID=comments.user_id
+                               WHERE comments.status=1 AND  comments.item_id='$item_id'
+                               ORDER BY comments.comment_id DESC";
+            $comments = mysqli_query($connection, $getAllComments);
+            if (! $comments){
+                errorDisplay(array('cannot get comments'));
+            }else{
+                while ($comment = mysqli_fetch_assoc($comments)){
+                   ?>
+
+                    <div class="comment-box">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img class="img-thumbnail d-block rounded-circle" width="200" height="200"
+                                     src="layouts/images/avatar01.jpg" alt="<?php echo $comment['UserName'];?>">
+                                <p class="text-center"><?php echo $comment['UserName']; ?></p>
+                            </div>
+                            <div class="col-md-9">
+                                <p class="lead"><?php echo $comment['comment']; ?></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="custom-hr">
+                    <?php
+                }
+            }
+            ?>
             <!--end displaying comments section-->
-        </div>
+
+
+
+
+
+        </div><!--end container-->
 <?php
     }
 include 'includes/temps/footer.php';

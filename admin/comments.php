@@ -8,7 +8,8 @@ if (isset($_SESSION['UserName'])) {
         // start manage page
         $allCommentsFromDB = "SELECT comments.*, items.Item_Name, users.UserName FROM comments
                               INNER JOIN items ON items.Item_ID=comments.item_id
-                              INNER JOIN users ON users.UserID=comments.user_id";
+                              INNER JOIN users ON users.UserID=comments.user_id
+                              ORDER BY comment_id DESC ";
         $result = mysqli_query($connection,$allCommentsFromDB);
         if ($result) {
 

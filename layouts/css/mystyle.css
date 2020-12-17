@@ -115,11 +115,22 @@ h1{
     letter-spacing: 15px;
     font-family: cursive;
 }
+.item-box .figure-caption p{
+    max-height: 44px;
+}
 .thumbnail .date{
     text-align: right;
     letter-spacing: 3px;
     color: #aaa;
     font-size: 13px;
+}
+.not-approved{
+    background-color: #e64849;
+    color: whitesmoke;
+    letter-spacing: 2.5px;
+    border-radius: 5px;
+    max-width: 160px;
+    padding: 5px;
 }
 /* end profile page */
 /* START ITEMS INFO PAGE*/
@@ -146,6 +157,34 @@ h1{
 }
 .commenting-area .btn{
     margin-top: 10px;
+}
+
+
+.comment-box .lead{
+    margin-top: 75px;
+    background-color: #b7b7b7;
+    padding: 10px;
+    border-radius: 15px;
+    position: relative;
+    color: #FFFFFF;
+    letter-spacing: 4px;
+    font-weight: 300;
+    font-size: 22px;
+    text-shadow: 2px 2px 4px #000000;
+}
+.comment-box .lead::before{
+    content: "";
+    width: 0;
+    height: 0;
+    border-width: 15px;
+    border-style: solid;
+    border-color: transparent #b7b7b7 transparent transparent;
+    position: absolute;
+    top: 10px;
+    left: -28px;
+}
+.comment-box .custom-hr:last-of-type{
+    display: none;
 }
 /*end commenting area*/
 

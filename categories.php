@@ -10,6 +10,7 @@
     <?php
     $items = getItems('Cat_ID',$_GET['catID']);
     while ($item = mysqli_fetch_assoc($items)){
+        if ($item['Approve'] == 1){
         ?>
         <div class="col-sm-6 col-md-4">
             <div class="thumbnail item-box">
@@ -21,7 +22,7 @@
                 </div>
             </div>
         </div>
-   <?php }?>
+   <?php } }?>
 
 
     </div>

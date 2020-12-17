@@ -73,6 +73,11 @@ if (isset($_SESSION['userName'])){
                                             <h3><a href="items.php?itemID=<?php echo $item['Item_ID'];?>"><?php echo $item['Item_Name'];?></a></h3>
                                             <p><?php echo $item['Item_Desc'];?></p>
                                             <p class="date"> <?php echo $item['Item_Date'];?></p>
+                                            <?php
+                                            if ($item['Approve'] == 0){
+                                                echo "<div class='not-approved'>Not Approved</div>";
+                                            }
+                                            ?>
                                         </div>
                                     </div>
                                 </div>

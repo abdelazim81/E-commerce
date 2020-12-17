@@ -20,6 +20,9 @@
            <ul class="navbar-nav login-logic-area">
                <?php if (isset($_SESSION['userName'])){?>
                    <li class="nav-item">
+                       <a class="btn btn-primary" href="newAd.php">New</a>
+                   </li>
+                   <li class="nav-item">
                        <a class="btn btn-info" href="profile.php">Profile</a>
                    </li>
                    <li class="nav-item">
