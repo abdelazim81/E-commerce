@@ -28,7 +28,9 @@ if (isset($_SESSION['userName'])){
                                     <input type="text"
                                            class="form-control live-name"
                                            name="name"
-                                           placeholder="Enter Item Name!" required pattern=".{4,}"
+                                           placeholder="Enter Item Name!"
+                                           required
+                                           pattern=".{4,}"
                                            title="item name should be at least 4 characters" >
                                 </div>
                                 <!--DESCRIPTION OF ITEM-->
@@ -36,7 +38,8 @@ if (isset($_SESSION['userName'])){
                                     <input type="text"
                                            class="form-control live-desc"
                                            name="description"
-                                           placeholder="Enter Item Description!" required
+                                           placeholder="Enter Item Description!"
+                                           required
                                            pattern=".{15,}"
                                            title="The item description should be at least 15 characters">
                                 </div>
@@ -46,14 +49,16 @@ if (isset($_SESSION['userName'])){
                                            name="price"
                                            class="form-control live-price"
                                            placeholder="Enter Item Price!"
-                                           minlength="1" required>
+                                           minlength="1"
+                                           required>
                                 </div>
                                 <!--COUNTRY OF ITEM-->
                                 <div class="form-group ">
                                     <input type="text"
                                            class="form-control live-country"
                                            name="country"
-                                           placeholder="Enter Country Made!" pattern=".{4,}"
+                                           placeholder="Enter Country Made!"
+                                           pattern=".{4,}"
                                            title="The item country should be at least 4 characters"
                                            required>
                                 </div>

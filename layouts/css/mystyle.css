@@ -25,9 +25,23 @@ body{
     padding-left: 5px;
     text-indent: 5px;
     color: rgba(255,255,255,.5);
+    position: relative;
 }
 .nav-item:hover{
     color: rgba(255,255,255,1.0);
+}
+.my-info{
+    position: absolute;
+    right: 35px;
+}
+.my-info .user-name{
+    color: #d0d0d0;
+    letter-spacing: 3px;
+}
+.my-info ul a{
+    color: #1f1f21;
+    letter-spacing: 3px;
+    text-decoration: none;
 }
 h1{
     padding: 10px;
@@ -35,6 +49,7 @@ h1{
     margin-top: 10px;
     letter-spacing: 10px;
 }
+
 .success-msg{
     margin-top: 50px;
 }
@@ -121,7 +136,7 @@ h1{
 .thumbnail .date{
     text-align: right;
     letter-spacing: 3px;
-    color: #aaa;
+    color: #999999;
     font-size: 13px;
 }
 .not-approved{

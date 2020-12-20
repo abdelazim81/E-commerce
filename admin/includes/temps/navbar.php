@@ -41,8 +41,8 @@
                        }?>
                    </a>
                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                       <a class="dropdown-item" href="members.php?do=Edit&UserID=<?php echo $_SESSION['UserID']; ?>"><?php echo lang('editProfile');?></a>
                        <a href="../index.php" class="dropdown-item">Home Site</a>
+                       <a class="dropdown-item" href="members.php?do=Edit&UserID=<?php echo $_SESSION['UserID']; ?>"><?php echo lang('editProfile');?></a>
                        <a class="dropdown-item" href="#"><?php echo lang('settings');?></a>
                        <div class="dropdown-divider"></div>
                        <a class="dropdown-item" href="logout.php"><?php echo lang('logout');?></a>
