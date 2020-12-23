@@ -216,6 +216,24 @@ li:nth-child(odd){
 .add-cat h3{
     padding-bottom: 20px;
 }
+
+.cat h5{
+    margin-top: 25px;
+    margin-left: 80px;
+    padding: 5px;
+    color: #39383e;
+    letter-spacing: 12px;
+    text-shadow: 1px 1px #ec1b1b;
+}
+.cat ul{
+    margin-left: 85px;
+    padding: 5px;
+    font-weight: bolder;
+    text-shadow: 1px 1px #ffffff;
+    letter-spacing: 8px;
+    color: #3b4152;
+}
+
 /* END Category Page*/
 
 

@@ -11,7 +11,7 @@ if (isset($_SESSION['UserName'])){
         if (isset($_GET['sort'] ) && in_array($_GET['sort'],$sort_array)){
             $sort = $_GET['sort'];
         }
-        $selectCategories = "SELECT * FROM categories ORDER BY `Ordering` $sort";
+        $selectCategories = "SELECT * FROM categories WHERE parent = 0 ORDER BY `Ordering` $sort";
         $result           = mysqli_query($connection,$selectCategories);
         if (! $result){errorDisplay(array('Cannot Get All Categories'));}
         ?>
@@ -32,6 +32,12 @@ if (isset($_SESSION['UserName'])){
                 // Display all categories
 
                 while ($cats = mysqli_fetch_assoc($result)){
+                    $parent = $cats['ID'];
+                    $getSubCats = "SELECT * FROM categories WHERE parent ='$parent' ORDER BY `Ordering` $sort";
+                    $subCats = mysqli_query($connection,$getSubCats);
+                    if (! $subCats){
+                        errorDisplay(array("Cannot get sub categories"));
+                    }
                     echo "<div class='cat'>";
                     echo "<div class='hidden-button'>";
                     echo "<a href='categories.php?do=Edit&catID=" . $cats['ID'] . "' class='btn btn-warning'><i class='fas fa-edit'></i> Edit</a>";
@@ -47,6 +53,14 @@ if (isset($_SESSION['UserName'])){
                         }
                         if ($cats['Allow_Ads'] == 1){
                             echo "<span class='Ads'>" .  'Ads Disabled'  . "</span>";
+                        }
+                        if (! empty($subCats)){
+                            echo "<h5> Sub Categories : </h5>";
+                            echo "<ul class='list-unstyled'>";
+                            while ($subCat = mysqli_fetch_assoc($subCats)){
+                                echo "<li>" . "<a href='categories.php?do=Edit&catID=" . $subCat['ID'] . "' </a>" .  $subCat['Name'] . "</li>";
+                            }
+                            echo "</ul>";
                         }
                     echo "</div>";
                 }
@@ -69,6 +83,34 @@ if (isset($_SESSION['UserName'])){
                 <div class="form-group">
                     <input  type="text" name="description"  class="form-control" placeholder="Enter Category Description Here!">
                 </div>
+
+                <!--START SUB CATEGORIES SELECT BOX-->
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <label for="parent">Parent</label>
+                        </div>
+                        <div class="col-sm-10">
+                            <select name="parent" id="parent">
+                                <option value="0">None</option>
+                                <?php
+                                //get all parent categories
+                                $getCats = "select * from categories where parent=0";
+                                $cats    = mysqli_query($connection,$getCats);
+                                if (! $cats){
+                                    errorDisplay(array("Cannot get categories"));
+                                }
+                                while($cat = mysqli_fetch_assoc($cats)){
+                                    ?>
+                                    <option value="<?php echo $cat['ID'];?>"><?php echo $cat['Name'];?></option>
+                                <?php }?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!--END SUB CATEGORIES SELECT BOX-->
+
+
                 <div class="form-group">
                     <input  type="text" name="ordering"  class="form-control" placeholder="Enter Category ordering Here!">
                 </div>
@@ -128,6 +170,7 @@ if (isset($_SESSION['UserName'])){
         if (isset($_POST['createCategory'])){
             $name       = $_POST['name'];
             $Desc       = $_POST['description'];
+            $parent     = $_POST['parent'];
             $Ordering   = $_POST['ordering'];
             $visibility = $_POST['visibility'];
             $commenting = $_POST['commenting'];
@@ -135,7 +178,7 @@ if (isset($_SESSION['UserName'])){
             if (empty($name)){
                 errorDisplay(array('Name Of Category Must Not Be Empty'));
             }else{
-                $insertCategoryQuery = "INSERT INTO `categories` (`Name`, `Description`, `Ordering`, `visibility`, `Allow_Comment`, `Allow_Ads`) VALUES ( '$name', '$Desc', '$Ordering', '$visibility', '$commenting', '$Ads')";
+                $insertCategoryQuery = "INSERT INTO `categories` (`Name`, `Description`, `parent`, `Ordering`, `visibility`, `Allow_Comment`, `Allow_Ads`) VALUES ( '$name', '$Desc', '$parent', '$Ordering', '$visibility', '$commenting', '$Ads')";
                 $flag = mysqli_query($connection, $insertCategoryQuery);
                 if(! $flag){
                     errorDisplay(array('Cannot Add New Category'));
@@ -158,8 +201,6 @@ if (isset($_SESSION['UserName'])){
             $result = mysqli_query($connection, $selectCategory);
             if (!$result){errorDisplay(array('Cannot get this category'));}
             while($row = mysqli_fetch_assoc($result)){
-
-
                 ?>
             <div class="container text-center add-cat">
                 <form  method="post" class="form" action="categories.php?do=Update">
@@ -171,6 +212,45 @@ if (isset($_SESSION['UserName'])){
                     <div class="form-group">
                         <input  type="text" name="description"  class="form-control" value="<?php echo $row['Description'];?>">
                     </div>
+
+                    <!--START SUB CATEGORIES SELECT BOX-->
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <label for="parent">Parent</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <select name="parent" id="parent">
+                                    <option value="0">None</option>
+                                    <?php
+                                    //get all parent categories
+                                    $getCats = "select * from categories where parent=0";
+                                    $cats    = mysqli_query($connection,$getCats);
+                                    if (! $cats){
+                                        errorDisplay(array("Cannot get categories"));
+                                    }
+                                    print_r($cats);
+                                    while($cat = mysqli_fetch_assoc($cats)){
+
+                                        ?>
+                                        <option value="<?php echo $cat['ID'];?>"
+                                            <?php
+                                                    if ($row['parent'] == $cat['ID']) {
+                                                        echo "SELECTED";
+                                                    }
+                                            ?>
+                                        >
+                                            <?php echo $cat['Name'];?>
+                                        </option>
+
+                                    <?php }?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <!--END SUB CATEGORIES SELECT BOX-->
+
+
                     <div class="form-group">
                         <input  type="text" name="ordering"  class="form-control" value="<?php echo $row['Ordering'];?>">
                     </div>
@@ -235,11 +315,12 @@ if (isset($_SESSION['UserName'])){
             $ID = $_POST['ID'];
             $Name = $_POST['name'];
             $Description = $_POST['description'];
+            $parent      = $_POST['parent'];
             $Ordering = $_POST['ordering'];
             $Visibility = $_POST['visibility'];
             $Allow_Comment = $_POST['commenting'];
             $Allow_Ads = $_POST['Ads'];
-            $updateCategory = "UPDATE categories SET Name='$Name', Description='$Description', Ordering='$Ordering',
+            $updateCategory = "UPDATE categories SET Name='$Name', Description='$Description', parent='$parent', Ordering='$Ordering',
                                    visibility='$Visibility', Allow_comment='$Allow_Comment',
                                    Allow_Ads='$Allow_Ads' WHERE ID='$ID' ";
             $result = mysqli_query($connection,$updateCategory);

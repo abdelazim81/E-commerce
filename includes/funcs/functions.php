@@ -52,7 +52,7 @@ function getLatest($atrr,$table,$order,$limit=4){
 
 // function to get categories
 function getCategories () {
-    $selectCatsQuery = "SELECT * FROM categories";
+    $selectCatsQuery = "SELECT * FROM categories WHERE parent = 0";
     global $connection;
     $result = mysqli_query($connection,$selectCatsQuery);
     if (! $result){
