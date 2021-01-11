@@ -19,7 +19,7 @@ if (isset($_SESSION['UserName'])) {
             <h1 class="text-center">Manage Member</h1>
                 <table class="table members-table table-responsive table-hover text-center">
                     <tr>
-                        <th>#ID</th>
+                        <th>image</th>
                         <th>UserName</th>
                         <th>Password</th>
                         <th>Email</th>
@@ -29,7 +29,11 @@ if (isset($_SESSION['UserName'])) {
                     </tr>
 <?php while($rows = mysqli_fetch_assoc($result)){ ?>
                 <tr>
-                    <td><?php echo $rows['UserID'];?></td>
+                    <!--CHECK FOR USER IMAGE-->
+                    <?php
+                    $user_image = empty($rows['member_image']) ? 'default.png' : $rows['member_image'];
+                    ?>
+                    <td><img width="100" height="100" class="img-thumbnail rounded-circle" src="uploads\images\<?php echo $user_image;?>" alt="<?php echo $rows['UserName'];?>"></td>
                     <td><?php echo $rows['UserName'];?></td>
                     <td><?php echo $rows['Password'];?></td>
                     <td><?php echo $rows['Email'];?></td>
@@ -62,7 +66,7 @@ if (isset($_SESSION['UserName'])) {
         ?>
 
         <div class="login-form text-center">
-            <form  method="post" class="form" action="members.php?do=Store">
+            <form  method="post" class="form" action="members.php?do=Store" enctype="multipart/form-data">
                 <h3 class="text-center">Add New User</h3>
                 <div class="form-group ">
                     <input type="text" class="form-control" name="UserName" placeholder="Enter User Name!" required >
@@ -75,6 +79,12 @@ if (isset($_SESSION['UserName'])) {
                 </div>
                 <div class="form-group ">
                     <input type="text" class="form-control" name="FullName" placeholder="Enter Your Full  Name!" required>
+                </div>
+                <div class="form-group">
+                    <div class="upload">
+                        <span><i class="fas fa-file-upload"></i></span>
+                        <input type="file" name="user_image" class="upload-button">
+                    </div>
                 </div>
                 <button class="btn btn-warning" type="reset">Reset Data <i class="fas fa-redo"></i></button>
                 <button type="submit" name="addNewUser" class="btn btn-primary">Add  <i class="fas fa-folder-plus"></i> </button>
@@ -94,6 +104,25 @@ if (isset($_SESSION['UserName'])) {
             $Email = $_POST['Email'];
             $Password =$_POST['Password'];
             $FullName = $_POST['FullName'];
+
+
+            //allowed extension for image uploading
+            $extensions = array('jpg','jpeg','png','gif');
+
+
+            // user image information
+            $original_name = $_FILES['user_image']['name'];
+            $temp_name     = $_FILES['user_image']['tmp_name'];
+            $type          = $_FILES['user_image']['type'];
+
+
+            // getting image extension
+            $extension = explode('.',$original_name);
+            $extension = strtolower(end($extension));
+
+
+
+
             $errors = array();
                            // if user name is empty
             if(empty($UserName)){
@@ -111,6 +140,14 @@ if (isset($_SESSION['UserName'])) {
             if (empty($Password)){
                 $errors[] = "User Password should Not Be Empty";
             }
+                        // if there is image and not allowed extension
+            if (!empty($original_name) && ! in_array($extension,$extensions)){
+                $errors[] = "This Format Is Not Supported, Please Upload Another Image";
+            }
+                    // if there is no image
+            if (empty($original_name)){
+                $errors[] = "Please Upload An Image";
+            }
             if (count($errors)>0){
                 errorDisplay($errors);
             }else{
@@ -121,15 +158,20 @@ if (isset($_SESSION['UserName'])) {
                     if (count($rows)>0){
                         errorDisplay(array('This User Name Exist Try Another One'));
                     }else{
-                        $storeUserInfo = "INSERT INTO users(UserName,Password,Email,FullName,RegStatus,Date) 
-                                  VALUES('$UserName','$Password','$Email','$FullName', 1 ,now() )";
+                        $image = rand(0,1000000) . '_' . $original_name;
+                        move_uploaded_file($temp_name,'uploads\images\\' . $image);
+
+                        $storeUserInfo = "INSERT INTO users(UserName,Password,Email,FullName,RegStatus,Date,member_image) 
+                                  VALUES('$UserName','$Password','$Email','$FullName', 1 ,now(), '$image' )";
                         $flag = mysqli_query($connection,$storeUserInfo);
                         if ($flag){
                             successDisplay("Row Inserted Successfully");
+                            header("refresh=2;url=members.php");
                         }else{
                             $errors = array('Row Inserted Failed');
                             errorDisplay($errors);
                         }
+
                     }
 
                 }else{
@@ -168,7 +210,7 @@ if (isset($_SESSION['UserName'])) {
       <div class="edit-user-form" style="margin-left: -1770px;margin-top: 25px">
           <div class="container">
               <h1 class="text-center">Edit Page</h1>
-              <form method="post" action="?do=Update" class="form edit-form">
+              <form method="post" action="?do=Update" class="form edit-form" enctype="multipart/form-data">
                   <div class="form-group ">
                       <input type="hidden" name="UserID" value="<?php echo $UserID;?>">
                       <div class="col-md-4">
@@ -203,6 +245,12 @@ if (isset($_SESSION['UserName'])) {
                           <input value="<?php echo $FullName;?>" type="text" name="FullName" class="form-control">
                       </div>
                   </div>
+                  <div class="form-group">
+                      <div class="upload">
+                          <span><i class="fas fa-file-upload"></i></span>
+                          <input type="file" name="user_image" class="upload-button">
+                      </div>
+                  </div>
                   <div class="col-sm-6">
                       <button type="submit" name="editUser" class="btn btn-success btn-lg">Save <i class="fas fa-save"></i></button>
                       <button type="reset"  class="btn btn-warning btn-lg">Reset <i class="fas fa-redo"></i></button>
@@ -221,6 +269,23 @@ if (isset($_SESSION['UserName'])) {
             $Password ='';
             $Email = $_POST['Email'];
             $FullName = $_POST['FullName'];
+
+
+            //allowed extension for image uploading
+            $extensions = array('jpg','jpeg','png','gif');
+
+
+            // user image information
+            $original_name = $_FILES['user_image']['name'];
+            $temp_name     = $_FILES['user_image']['tmp_name'];
+            $type          = $_FILES['user_image']['type'];
+
+
+            // getting image extension
+            $extension = explode('.',$original_name);
+            $extension = strtolower(end($extension));
+
+
             $errors = array();
             // if user name is empty
             if(empty($UserName)){
@@ -239,18 +304,34 @@ if (isset($_SESSION['UserName'])) {
             }else{
                 $Password = $_POST['Password'];
             }
+
+            // if there is image and not allowed extension
+            if (!empty($original_name) && ! in_array($extension,$extensions)){
+                $errors[] = "This Format Is Not Supported, Please Upload Another Image";
+            }
+            // if there is no image
+            if (empty($original_name)){
+                $UpdateUserInfo = "UPDATE users SET UserName='$UserName', Email='$Email', FullName='$FullName', 
+                              Password='$Password' WHERE UserID='$UserID'";
+            }else{
+                $image = rand(0,1000000) . '_' . $original_name;
+                move_uploaded_file($temp_name,'uploads\images\\' . $image);
+                $UpdateUserInfo = "UPDATE users SET UserName='$UserName', Email='$Email', FullName='$FullName', 
+                              Password='$Password', member_image='$image' WHERE UserID='$UserID'";
+            }
             if (count($errors)>0){
                 errorDisplay($errors);
             }else{
-                $checkNameQuery = "SELECT UserName FROM users WHERE UserName='$UserName'";
+
+                // check if new name is already exist
+                $checkNameQuery = "SELECT UserName FROM users WHERE UserName='$UserName' AND UserID!='$UserID'";
                 $result = mysqli_query($connection,$checkNameQuery);
                 if ($result){
                     $rows = mysqli_fetch_assoc($result);
                     if (count($rows)>0){
                         errorDisplay(array('This User Name Exist Try Another One'));
                     }else{
-                        $UpdateUserInfo = "UPDATE users SET UserName='$UserName', Email='$Email', FullName='$FullName', 
-                              Password='$Password' WHERE UserID='$UserID'";
+                        // storing new info
                         $flag = mysqli_query($connection,$UpdateUserInfo);
                         if ($flag){
                             successDisplay("Information Updated Successfully");

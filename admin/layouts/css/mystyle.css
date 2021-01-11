@@ -222,18 +222,25 @@ li:nth-child(odd){
     margin-left: 80px;
     padding: 5px;
     color: #39383e;
+    font-weight: bolder;
     letter-spacing: 12px;
-    text-shadow: 1px 1px #ec1b1b;
 }
 .cat ul{
     margin-left: 85px;
     padding: 5px;
-    font-weight: bolder;
-    text-shadow: 1px 1px #ffffff;
     letter-spacing: 8px;
     color: #3b4152;
 }
-
+.cat ul li a{
+    text-decoration: none;
+    color: #3b4152;
+}
+.delete-sub{
+    display: none;
+}
+.sub-cat:hover .delete-sub{
+    display: inline;
+}
 /* END Category Page*/
 
 
@@ -250,4 +257,42 @@ label{
     min-width: 200px;
 }
 /*end item page*/
+
+
+/* START CUSTOM UPLOAD BUTTON */
+.upload{
+    background-color: #98999a;
+    color: #fbfbfb;
+    letter-spacing: 7px;
+    position: relative;
+    width: 569px;
+    height: 60px;
+    z-index: 1;
+    border-radius: 22px;
+}
+.upload > span{
+    font-size: 20px;
+    position: absolute;
+    right: 130px;
+    top: 13px;
+}
+.upload input[type="file"]{
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    position: absolute;
+    left: 0;
+    right: 0;
+    opacity: 0;
+}
+.upload::after{
+    content: "Upload Your File/s";
+    letter-spacing: 5px;
+    position: absolute;
+    top: 10px;
+    left: 150px;
+    font-size: 20px;
+}
+
+/* END CUSTOM UPLOAD BUTTON */
 

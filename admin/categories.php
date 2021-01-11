@@ -54,11 +54,11 @@ if (isset($_SESSION['UserName'])){
                         if ($cats['Allow_Ads'] == 1){
                             echo "<span class='Ads'>" .  'Ads Disabled'  . "</span>";
                         }
-                        if (! empty($subCats)){
+                        if ($subCats->num_rows > 0){
                             echo "<h5> Sub Categories : </h5>";
                             echo "<ul class='list-unstyled'>";
                             while ($subCat = mysqli_fetch_assoc($subCats)){
-                                echo "<li>" . "<a href='categories.php?do=Edit&catID=" . $subCat['ID'] . "' </a>" .  $subCat['Name'] . "</li>";
+                                echo "<li class='sub-cat'>" . "<a href='categories.php?do=Edit&catID=" . $subCat['ID'] . "' </a>" .  $subCat['Name'] . "<a href='categories.php?do=Delete&catID=" . $subCat['ID'] . "' class=' delete-sub confirm btn btn-danger'><i class='fas fa-window-close'></i></a>" . "</li>";
                             }
                             echo "</ul>";
                         }
@@ -229,7 +229,6 @@ if (isset($_SESSION['UserName'])){
                                     if (! $cats){
                                         errorDisplay(array("Cannot get categories"));
                                     }
-                                    print_r($cats);
                                     while($cat = mysqli_fetch_assoc($cats)){
 
                                         ?>

@@ -66,7 +66,7 @@ if (isset($_SESSION['UserName'])){
         // start add page
         ?>
             <div class=" login-form text-center">
-                <form  method="post" class="form" action="items.php?do=Store">
+                <form  method="post" class="form" action="items.php?do=Store" enctype="multipart/form-data">
                     <h3 class="text-center">Add New Item</h3>
                     <div class="form-group ">
                         <input type="text" class="form-control" name="name" placeholder="Enter Item Name!"  >
@@ -128,6 +128,12 @@ if (isset($_SESSION['UserName'])){
                             }
                             ?>
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <div class="upload">
+                            <span><i class="fas fa-file-upload"></i></span>
+                            <input type="file" name="image" class="upload-button">
+                        </div>
                     </div>
                     <button class="btn btn-warning" type="reset">Reset Data <i class="fas fa-redo"></i></button>
                     <button type="submit" name="addNewItem" class="btn btn-primary">Add Item <i class="fas fa-folder-plus"></i> </button>

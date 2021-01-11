@@ -26,4 +26,5 @@ $("body").on('click','.confirm', function () {
         return confirm("Are You Sure That You Want To Delete This Row")
 });
 
+
 });
