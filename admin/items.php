@@ -21,7 +21,7 @@ if (isset($_SESSION['UserName'])){
                 <h1 class="text-center">Manage Items</h1>
                 <table class="table members-table table-responsive table-hover text-center">
                     <tr>
-                        <th>#ID</th>
+                        <th>Image</th>
                         <th>Name</th>
                         <th>Description</th>
                         <th>Price</th>
@@ -33,7 +33,15 @@ if (isset($_SESSION['UserName'])){
                     </tr>
                     <?php while($rows = mysqli_fetch_assoc($result)){ ?>
                         <tr>
-                            <td><?php echo $rows['Item_ID'];?></td>
+                            <?php
+                            $image = empty($rows['Item_Image']) ? 'camera.jpg' : $rows['Item_Image'];
+                            ?>
+                            <td><img width="100"
+                                     height="100"
+                                     class="rounded-circle img-thumbnail"
+                                     src="uploads\images\<?php echo $image?>"
+                                     alt="<?php echo $rows['Item_Name'];?>">
+                            </td>
                             <td><?php echo $rows['Item_Name'];?></td>
                             <td><?php echo $rows['Item_Desc'];?></td>
                             <td><?php echo $rows['Item_Price'];?></td>
@@ -129,10 +137,11 @@ if (isset($_SESSION['UserName'])){
                             ?>
                         </select>
                     </div>
+
                     <div class="form-group">
                         <div class="upload">
                             <span><i class="fas fa-file-upload"></i></span>
-                            <input type="file" name="image" class="upload-button">
+                            <input type="file" name="item_image" class="upload-button">
                         </div>
                     </div>
                     <button class="btn btn-warning" type="reset">Reset Data <i class="fas fa-redo"></i></button>
@@ -150,6 +159,18 @@ if (isset($_SESSION['UserName'])){
             $status = $_POST['status'];
             $user  = $_POST['user'];
             $category = $_POST['categories'];
+
+            //allowed extension for image uploading
+            $extensions = array('jpg','jpeg','png','gif');
+
+            // user image information
+            $original_name = $_FILES['item_image']['name'];
+            $temp_name     = $_FILES['item_image']['tmp_name'];
+            $type          = $_FILES['item_image']['type'];
+
+            // getting image extension
+            $extension = explode('.',$original_name);
+            $extension = strtolower(end($extension));
             $errors_array = array();
             if (empty($name)){
                 $errors_array[] = "Name Of The Item Cannot Be Empty Please Enter A Name";
@@ -172,8 +193,22 @@ if (isset($_SESSION['UserName'])){
             if ($category == 0){
                 $errors_array[] = "Please Enter The Category Of The Item";
             }
+            // if there is image and not allowed extension
+            if (!empty($original_name) && ! in_array($extension,$extensions)){
+                $errors[] = "This Format Is Not Supported, Please Upload Another Image";
+            }
+            // if there is no image
+            if (empty($original_name)){
+                $errors[] = "Please Upload An Image";
+            }
             if (empty($errors_array)){
-                $insertItemQuery = "INSERT INTO `items` (`Item_Name`, `Item_Desc`, `Item_Price`, `Item_Date`, `Item_Country`, `Item_Image`, `Item_Status`, `Item_Rating`, `Cat_ID`, `Member_ID`) VALUES ( '$name', '$desc', '$price', now(), '$country', NULL, '$status', NULL, '$category', '$user')";
+                $image = rand(0,1000000) . '_' . $original_name;
+                move_uploaded_file($temp_name,'uploads\images\\' . $image);
+                $insertItemQuery = "INSERT INTO `items` (`Item_Name`, `Item_Desc`, `Item_Price`,
+                                    `Item_Date`, `Item_Country`, `Item_Image`, `Item_Status`,
+                                     `Item_Rating`, `Cat_ID`, `Member_ID`) 
+                                     VALUES ( '$name', '$desc', '$price', now(), '$country', '$image', 
+                                     '$status', NULL , '$category', '$user')";
                 $flag = mysqli_query($connection,$insertItemQuery);
                 if (! $flag){
                     errorDisplay(array('Cannot Insert New Items'));
@@ -223,7 +258,7 @@ if (isset($_SESSION['UserName'])){
             $row = mysqli_fetch_assoc($flag);
             ?>
             <div class=" login-form text-center">
-                <form  method="post" class="form" action="items.php?do=Update">
+                <form  method="post" class="form" action="items.php?do=Update" enctype="multipart/form-data">
                     <h3 class="text-center">Add New Item</h3>
                     <div class="form-group ">
                         <input type="text" class="form-control" name="name" value="<?php echo $row['Item_Name'];?>"  >
@@ -295,6 +330,12 @@ if (isset($_SESSION['UserName'])){
                             ?>
                         </select>
                     </div>
+                    <div class="form-group">
+                        <div class="upload">
+                            <span><i class="fas fa-file-upload"></i></span>
+                            <input type="file" name="item_image" class="upload-button">
+                        </div>
+                    </div
                     <button class="btn btn-warning" type="reset">Reset Data <i class="fas fa-redo"></i></button>
                     <button type="submit" name="UpdateItem" class="btn btn-primary">Update Item <i class="fas fa-folder-plus"></i> </button>
                 </form>
@@ -358,16 +399,36 @@ if (isset($_SESSION['UserName'])){
             $Item_Country = $_POST['country'];
             $Item_Member = $_POST['user'];
             $Item_Category = $_POST['categories'];
+
+
+
+            //allowed extension for image uploading
+            $extensions = array('jpg','jpeg','png','gif');
+
+
+            // user image information
+            $original_name = $_FILES['item_image']['name'];
+            $temp_name     = $_FILES['item_image']['tmp_name'];
+            $type          = $_FILES['item_image']['type'];
+
+
+            // getting image extension
+            $extension = explode('.',$original_name);
+            $extension = strtolower(end($extension));
+
+            $image = rand(0,1000000) . '_' . $original_name;
+            move_uploaded_file($temp_name,'uploads\images\\' . $image);
             $updateItem = "Update items set Item_Name='$Item_Name', Item_Desc='$Item_Desc', Item_Price='$Item_Price',
                            Item_Country='$Item_Country', Item_Status='$Item_Status', Cat_ID='$Item_Category', 
-                           Member_ID='$Item_Member' WHERE Item_ID='$Item_ID'";
+                           Member_ID='$Item_Member', Item_Image='$image' 
+                           WHERE Item_ID='$Item_ID'";
             $updateFlag = mysqli_query($connection, $updateItem);
             if (! $updateItem) { errorDisplay(array("Cannot Update This Item"));
-                header("refresh:2;url=index.php");
+                header("refresh:3;url=index.php");
                 exit();
             }
             successDisplay("Item Updated Successfully ");
-            header("refresh:2;index.php");
+            header("refresh:3;index.php");
 
         }else{
             errorDisplay(array("cannot update this item "));
